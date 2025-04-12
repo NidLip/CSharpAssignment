@@ -1,20 +1,127 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SkyLens2.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SkyLens2.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="SkyLens2">
+        Title="StellarScope"
+        Width="1000" Height="800"
+        Background="#F4F7F6"
+        FontFamily="Arial">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <!-- Style Section -->
+    <Window.Styles>
+        <Style Selector="Button.PrimaryButton">
+            <Setter Property="Background" Value="#374151"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Style Selector="Button.LargeButton">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="50"/>
+        </Style>
+    </Window.Styles>
 
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <Border Grid.Row="0" Background="White" Padding="15" BorderBrush="#CCCCCC" BorderThickness="0 0 0 1">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                <Image Source="avares://SkyLens2/Assets/SkyLensLogo.png" Width="100" Grid.Column="0" Margin="0 0 10 0"/>
+                
+                <TextBlock Text="Emmen, Netherlands" Grid.Column="1"
+                           FontSize="18" Foreground="#666666"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                
+                <TextBlock x:Name="DateTimeText" Grid.Column="2"
+                           FontSize="18" Foreground="#666666"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <ContentControl x:Name="MainContent" Grid.Row="1">
+            <ScrollViewer>
+                <StackPanel HorizontalAlignment="Center" MaxWidth="800" Spacing="30" Margin="20">
+                    
+                    <!-- Observation Section -->
+                    <Border Background="White" CornerRadius="30" Padding="20">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <!-- Left -->
+                            <StackPanel Spacing="10" Margin="0 0 20 0">
+                                <TextBlock Text="Explore the universe" FontSize="24"
+                                           FontWeight="Bold" Margin="0 0 0 20"/>
+                                <TextBlock Text="Today's observation conditions:"/>
+                                <TextBlock Text="Outlook: Favourable" FontWeight="Bold"/>
+                                <TextBlock Text="Recommended Observation Time: 23:45–03:37" FontWeight="Bold"/>
+                            </StackPanel>
+
+                            <!-- Right -->
+                            <Border Background="#DDDDDD" CornerRadius="20" Padding="20" Grid.Column="1" Width="300">
+                                <StackPanel HorizontalAlignment="Center" Spacing="10">
+                                    <Image Source="avares://SkyLens2/Assets/moonimg.png" Width="200"/>
+                                    <TextBlock Text="Current Moon Phase" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="100%" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- CTA Buttons -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20">
+                        <Button Classes="PrimaryButton" Content="Explore the Sky" Click="OnExploreSkyClick"/>
+                        <Button Classes="PrimaryButton" Content="See Star Chart" Click="OnSeeStarChartClick"/>
+                    </StackPanel>
+
+                    <!-- Weather Section -->
+                    <Border Background="White" CornerRadius="30" Padding="20">
+                        <StackPanel Spacing="20">
+                            <TextBlock Text="Weather" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="50">
+                                <!-- Cloud Cover -->
+                                <StackPanel Spacing="10">
+                                    <Image Source="avares://SkyLens2/Assets/CloudCoverIcon.png" Width="100" Height="100"/>
+                                    <TextBlock Text="Cloud Cover: Clear (11%)" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Light Pollution -->
+                                <StackPanel Spacing="10">
+                                    <Image Source="avares://SkyLens2/Assets/LightPollutionIcon.png" Width="100" Height="100"/>
+                                    <TextBlock Text="Light Pollution: Medium (33%)" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Air Turbulence -->
+                                <StackPanel Spacing="10">
+                                    <Image Source="avares://SkyLens2/Assets/AirTurbulenceIcon.png" Width="100" Height="100"/>
+                                    <TextBlock Text="Air Turbulence: Stable (1)" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Explore Section -->
+                    <Border Background="White" CornerRadius="30" Padding="20">
+                        <StackPanel Spacing="20">
+                            <TextBlock Text="Explore" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+                            <StackPanel Spacing="15" HorizontalAlignment="Center">
+                                <Button Classes="LargeButton" Content="Constellations" Click="OnNavigateConstellations"/>
+                                <Button Classes="LargeButton" Content="Planets" Click="OnNavigatePlanets"/>
+                                <Button Classes="LargeButton" Content="Stars" Click="OnNavigateStars"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </ContentControl>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" Background="White" Padding="10">
+            <TextBlock Text="© 2025 SkyLens" Foreground="#999999" HorizontalAlignment="Center" FontSize="12"/>
+        </Border>
+    </Grid>
 </Window>

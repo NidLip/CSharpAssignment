@@ -1,0 +1,7 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="SkyLens2.Views.StarsView">
+    <Grid>
+        <TextBlock Text="Stars Page" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+    </Grid>
+</UserControl>
