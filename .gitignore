@@ -135,3 +135,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+/SkyLens/SkyLens2/SkyLens2/obj
