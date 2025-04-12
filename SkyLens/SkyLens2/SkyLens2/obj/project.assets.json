@@ -1479,25 +1479,25 @@
     ]
   },
   "packageFolders": {
-    "/Users/andrii/.nuget/packages/": {}
+    "/Users/minochka/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/andrii/Documents/GitHub/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/SkyLens2.csproj",
+      "projectUniqueName": "/Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/SkyLens2.csproj",
       "projectName": "SkyLens2",
-      "projectPath": "/Users/andrii/Documents/GitHub/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/SkyLens2.csproj",
-      "packagesPath": "/Users/andrii/.nuget/packages/",
-      "outputPath": "/Users/andrii/Documents/GitHub/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/",
+      "projectPath": "/Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/SkyLens2.csproj",
+      "packagesPath": "/Users/minochka/.nuget/packages/",
+      "outputPath": "/Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/andrii/.nuget/NuGet/NuGet.Config"
+        "/Users/minochka/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/Users/andrii/.dotnet/library-packs": {},
+        "/usr/local/share/dotnet/x64/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1563,7 +1563,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/Users/andrii/.dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
