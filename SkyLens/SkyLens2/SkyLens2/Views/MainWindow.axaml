@@ -16,6 +16,10 @@
             <Setter Property="Width" Value="200"/>
             <Setter Property="Height" Value="40"/>
         </Style>
+        
+        <Style Selector="Button.PrimaryButton:pointerover">
+            <Setter Property="Background" Value="Red"/>
+        </Style>
 
         <Style Selector="Button.LargeButton">
             <Setter Property="Background" Value="Black"/>
@@ -51,9 +55,9 @@
                     
                     <!-- Observation Section -->
                     <Border Background="White" CornerRadius="30" Padding="20">
-                        <Grid ColumnDefinitions="*,Auto">
+                        <Grid ColumnDefinitions="300,Auto">
                             <!-- Left -->
-                            <StackPanel Spacing="10" Margin="0 0 20 0">
+                            <StackPanel Spacing="10" Margin="0 0 20 0" Background="Lavender">
                                 <TextBlock Text="Explore the universe" FontSize="24"
                                            FontWeight="Bold" Margin="0 0 0 20"/>
                                 <TextBlock Text="Today's observation conditions:"/>
