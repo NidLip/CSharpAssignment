@@ -1,0 +1,121 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:SkyLens2.ViewModels"
+             x:Class="SkyLens2.Views.HomeView"
+             x:DataType="viewModels:MainWindowViewModel">
+    <ScrollViewer>
+        <StackPanel HorizontalAlignment="Center" MaxWidth="1400" Spacing="30" Margin="20">
+            <!-- Observation Section -->
+                    <Border Background="#6C48C5"
+                            CornerRadius="30"
+                            Padding="20"
+                            Width="1000"
+                            HorizontalAlignment="Center">
+                        <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
+                            <!-- Left Column -->
+                            <StackPanel Margin="20 0 30 0" VerticalAlignment="Center" Spacing="6">
+                                <TextBlock Text="Explore the universe"
+                                           FontSize="30"
+                                           FontWeight="Bold"
+                                           Foreground="#FFE1FF"
+                                           Padding="0 0 0 20"/>
+
+                                <TextBlock Text="Today's observation conditions:"
+                                           Foreground="#FFE1FF"/>
+                                <TextBlock Text="Outlook: "
+                                           Foreground="#FFE1FF"/>
+                                <TextBlock Text="{Binding ObservationOutlook}" 
+                                           FontWeight="Bold"
+                                           Foreground="#FFE1FF"/>
+                                <TextBlock Text="Recommended Observation Time: "
+                                           Foreground="#FFE1FF"/>
+                                <TextBlock Text="{Binding RecommendedObservationTime}"
+                                           FontWeight="Bold"
+                                           Foreground="#FFE1FF"/>
+
+                                <!-- Move buttons down a bit -->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Left"
+                                            Spacing="20"
+                                            Margin="0 70 20 10">
+                                    <Button Classes="PrimaryButton"
+                                            Content="Explore the Sky"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"/>
+                                    <Button Classes="PrimaryButton"
+                                            Content="See Star Chart"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalContentAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <!-- Right Column (Moon) -->
+                            <Border Background="#E4B1F0"
+                                    CornerRadius="20"
+                                    Padding="20"
+                                    Width="300"
+                                    Grid.Column="1">
+                                <StackPanel HorizontalAlignment="Center" Spacing="10">
+                                    <Image Source="avares://SkyLens2/Assets/moonimg.png" Width="200"/>
+                                    <TextBlock Text="Current Moon Phase"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#433878"/>
+                                    <TextBlock Text="{Binding MoonPhase}"
+                                               FontSize="18"
+                                               FontWeight="Bold"
+                                               HorizontalAlignment="Center"
+                                               Foreground="#433878"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Weather Section -->
+                    <Border Background="#6C48C5" CornerRadius="30" Padding="20">
+                        <StackPanel Spacing="20">
+                            <TextBlock Foreground="#FFE1FF" Text="Weather" FontSize="30" FontWeight="Bold" Margin="0 0 0 30" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="160">
+                                <!-- Cloud Cover -->
+                                <StackPanel Spacing="10" HorizontalAlignment="Center">
+                                    <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
+                                        <Image Source="avares://SkyLens2/Assets/CloudCoverIcon.png" Width="100" Height="100"/>
+                                    </Border>
+                                    <TextBlock Foreground="#FFE1FF" Text="Cloud Cover: " HorizontalAlignment="Center" Padding="0 30 0 0"/>
+                                    <TextBlock Foreground="#FFE1FF" Text="{Binding CloudCoverageText}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Light Pollution -->
+                                <StackPanel Spacing="10" HorizontalAlignment="Center">
+                                    <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
+                                        <Image Source="avares://SkyLens2/Assets/LightPollutionIcon.png" Width="100" Height="100"/>
+                                    </Border>
+                                    <TextBlock Foreground="#FFE1FF" Text="Light Pollution: " HorizontalAlignment="Center" Padding="0 30 0 0"/>
+                                    <TextBlock Foreground="#FFE1FF" Text="{Binding LightPollutionText}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+
+                                <!-- Air Turbulence -->
+                                <StackPanel Spacing="10" HorizontalAlignment="Center">
+                                    <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
+                                        <Image Source="avares://SkyLens2/Assets/AirTurbulenceIcon.png" Width="100" Height="100"/>
+                                    </Border>
+                                    <TextBlock Foreground="#FFE1FF" Text="Air Turbulence: " HorizontalAlignment="Center" Padding="0 30 0 0"/>
+                                    <TextBlock Foreground="#FFE1FF" Text="{Binding AirTurbulence}" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Explore Section -->
+                    <Border Background="#6C48C5" CornerRadius="30" Padding="20">
+                        <StackPanel Spacing="20">
+                            <TextBlock Foreground="#FFE1FF" Text="Explore" FontSize="30" FontWeight="Bold" Margin="0 0 0 30" HorizontalAlignment="Center"/>
+                            <StackPanel Spacing="15" HorizontalAlignment="Center">
+                                <Button Classes="LargeButton" Content="Planets" Click="OnNavigatePlanets"/>
+                                <Button Classes="LargeButton" Content="Stars" Click="OnNavigateStars"/>
+                                <Button Classes="LargeButton" Content="Constellations" Click="OnNavigateConstellations"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

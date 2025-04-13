@@ -134,3 +134,7 @@ C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\Debug\net9.0\SkyLens2.genruntimeconfig.cache
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\SkyLens2.pdb
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\Debug\net9.0\ref\SkyLens2.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\DynamicData.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\ReactiveUI.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Splat.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\System.Reactive.dll
