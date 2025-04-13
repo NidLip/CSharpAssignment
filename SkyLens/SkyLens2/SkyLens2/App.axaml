@@ -5,6 +5,39 @@
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+             <!-- Styles -->
+             <Application.Styles>
+                 <Style Selector="Button.PrimaryButton">
+                     <Setter Property="Background" Value="Black"/>
+                     <Setter Property="Foreground" Value="White"/>
+                     <Setter Property="CornerRadius" Value="20"/>
+                     <Setter Property="FontWeight" Value="Bold"/>
+                     <Setter Property="Width" Value="200"/>
+                     <Setter Property="Height" Value="40"/>
+                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                     <Setter Property="VerticalContentAlignment" Value="Center"/>
+                 </Style>
+                 
+                 <Style Selector="Button.PrimaryButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                     <Setter Property="Background" Value="#222222"/> 
+                 </Style>
+
+                 <Style Selector="Button.LargeButton">
+                     <Setter Property="Background" Value="Black"/>
+                     <Setter Property="Foreground" Value="White"/>
+                     <Setter Property="CornerRadius" Value="12"/>
+                     <Setter Property="FontSize" Value="18"/>
+                     <Setter Property="FontWeight" Value="Bold"/>
+                     <Setter Property="Width" Value="250"/>
+                     <Setter Property="Height" Value="50"/>
+                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                 </Style>
+
+                 <Style Selector="Button.LargeButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                     <Setter Property="Background" Value="#222222"/>
+                 </Style>
+             </Application.Styles>
+             
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
