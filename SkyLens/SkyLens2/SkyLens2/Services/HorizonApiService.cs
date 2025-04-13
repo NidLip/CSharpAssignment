@@ -129,9 +129,9 @@ namespace SkyLens2.Services
                     var matchPattern = @"(\d+|-\d+)\s+([^\n]+)";
                     var matchRegex = new Regex(matchPattern);
                     var matchResults = matchRegex.Matches(result);
-                    
                     foreach (Match match in matchResults)
                     {
+                        
                         if (match.Groups.Count >= 3)
                         {
                             var matchedId = match.Groups[1].Value.Trim();
@@ -154,6 +154,7 @@ namespace SkyLens2.Services
                         return matches[0];
                     }
                     
+                    
                     return new CelestialBody
                     {
                         Id = bodyId,
@@ -161,7 +162,8 @@ namespace SkyLens2.Services
                         Description = "Please use a specific ID instead."
                     };
                 }
-                
+                var body = new CelestialBody();
+
                 // Extract celestial body name from the result string
                 string name = "Unknown";
                 var targetNameMatch = Regex.Match(result, @"Target body name:\s+([^\n(]+)");
@@ -172,20 +174,34 @@ namespace SkyLens2.Services
                 
                 // Extract ephemeris data (if available)
                 var ephemerisData = ParseEphemerisData(result);
+                // Add these lines here to extract orbital period and temperature
+                var orbitalPeriodMatch = Regex.Match(result, @"Orbital period\s*=\s*([0-9.]+)");
+                if (orbitalPeriodMatch.Success)
+                {
+                    body.OrbitalPeriod = orbitalPeriodMatch.Groups[1].Value + " days";
+                }
+    
+                var tempMatch = Regex.Match(result, @"Mean Temperature\s*=\s*([0-9.]+)");
+                if (tempMatch.Success)
+                {
+                    body.SurfaceTemperature = tempMatch.Groups[1].Value + " K";
+                }
                 
                 return new CelestialBody
                 {
                     Id = bodyId,
                     Name = name,
-                    Description = ExtractDescription(result),
-                    EphemerisData = ephemerisData
+                    Description = "",
+                    EphemerisData = ephemerisData,
+                    OrbitalPeriod = body?.OrbitalPeriod, 
+                    SurfaceTemperature = body?.SurfaceTemperature
                 };
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error parsing response for query '{query}': {ex.Message}");
                 Console.WriteLine($"Raw response snippet: {rawResponse.Substring(0, Math.Min(rawResponse.Length, 500))}");
-                
+                    
                 return new CelestialBody
                 {
                     Id = bodyId,
@@ -246,12 +262,12 @@ namespace SkyLens2.Services
                         // Space-separated format
                         // Extract values based on position or labels
                         // This will depend on the exact format returned by the API
-                        var raMatch = Regex.Match(line, @"RA=\s*([0-9.]+)");
-                        var decMatch = Regex.Match(line, @"DEC=\s*([0-9.]+)");
-                        var distMatch = Regex.Match(line, @"delta=\s*([0-9.]+)");
-                        var magMatch = Regex.Match(line, @"mag=\s*([0-9.]+)");
-
-                        // To:
+                        
+                        var raMatch = Regex.Match(line, @"R\.A\.\s*\(ICRF\)=\s*([0-9.]+)");
+                        var decMatch = Regex.Match(line, @"DEC\s*\(ICRF\)=\s*([0-9.]+)");
+                        var distMatch = Regex.Match(line, @"delta\s*=\s*([0-9.]+)");
+                        var magMatch = Regex.Match(line, @"APmag\s*=\s*([0-9.]+)");
+                        
                         if (raMatch.Success) 
                         {
                             double tempRA;
@@ -279,7 +295,8 @@ namespace SkyLens2.Services
                             if (double.TryParse(magMatch.Groups[1].Value, out tempMag))
                                 ephemerisData.Magnitude = tempMag;
                         }
-                    }
+                    }Console.WriteLine("Ephemeris Table: " + ephemerisTable);
+
                 }
             }
             
@@ -358,7 +375,7 @@ namespace SkyLens2.Services
                     }
                 }
                 
-                return matches;
+                return matches; 
             }
             
             // If nothing found, return empty list

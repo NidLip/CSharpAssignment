@@ -30,15 +30,17 @@ namespace SkyLens2.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ImagePath { get; set; }
+        public string PhysicalCharacteristics { get; set; }
+        public string OrbitalParameters { get; set; }
+        public string ExplorationMissions { get; set; }
+        public string OrbitalPeriod { get; set; }
+        public string SurfaceTemperature { get; set; }
+        
         public EphemerisData EphemerisData { get; set; } = new EphemerisData();
-        // Initialize with default to prevent null references
-        public HorizonResponse Data { get; set; } = new HorizonResponse();
+        public HorizonResponse RawData { get; set; } = new HorizonResponse();
     
-        // Add calculated properties for direct access
-        public double RightAscension => Data.EphemerisData.FirstOrDefault()?.RightAscension ?? 0;
-        public double Declination => Data.EphemerisData.FirstOrDefault()?.Declination ?? 0;
-        public double Distance => Data.EphemerisData.FirstOrDefault()?.Distance ?? 0;
-        public double Magnitude => Data.EphemerisData.FirstOrDefault()?.Magnitude ?? 0;
+   
     }
 
     public class EphemerisData
