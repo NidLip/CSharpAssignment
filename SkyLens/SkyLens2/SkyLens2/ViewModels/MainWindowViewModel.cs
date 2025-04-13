@@ -1,6 +1,28 @@
-﻿namespace SkyLens2.ViewModels;
+﻿using System.Threading.Tasks;
 
-public partial class MainWindowViewModel : ViewModelBase
+namespace SkyLens2.ViewModels
 {
-    public string Greeting { get; } = "Welcome to Avalonia!";
+    public class MainWindowViewModel : ViewModelBase
+    {
+        private string _greeting;
+        public CelestialDataViewModel CelestialDataVM { get; }
+
+        public string Greeting
+        {
+            get => _greeting;
+            set => SetProperty(ref _greeting, value);
+        }
+
+        public MainWindowViewModel()
+        {
+            Greeting = "Welcome to SkyLens2!";
+            CelestialDataVM = new CelestialDataViewModel();
+            InitializeAsync();
+        }
+
+        private async void InitializeAsync()
+        {
+            await CelestialDataVM.LoadPlanetsAsync();
+        }
+    }
 }

@@ -3,6 +3,7 @@
         xmlns:vm="using:SkyLens2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="using:SkyLens2.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SkyLens2.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -15,6 +16,64 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="10">
+            <TextBlock Text="{Binding Greeting}" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
+            <TextBlock Text="NASA Horizon API Data Explorer" FontSize="16" Margin="0,0,0,10"/>
+            
+            <!-- Search Box -->
+            <DockPanel>
+                <Button DockPanel.Dock="Right" Content="Search" Command="{Binding CelestialDataVM.SearchCommand}" 
+                        Margin="5,0,0,0"/>
+                <TextBox Watermark="Enter celestial body ID or name" 
+                         Text="{Binding CelestialDataVM.SearchQuery}"/>
+            </DockPanel>
+        </StackPanel>
+        
+        <!-- Main Content -->
+        <Grid Grid.Row="1" ColumnDefinitions="250,*" Margin="10">
+            <!-- Left Panel: List of Celestial Bodies -->
+            <ListBox Grid.Column="0" 
+                     ItemsSource="{Binding CelestialDataVM.CelestialBodies}"
+                     SelectedItem="{Binding CelestialDataVM.SelectedBody}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="models:CelestialBody">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
+            <!-- Right Panel: Details -->
+            <ScrollViewer Grid.Column="1" Margin="10,0,0,0">
+                <StackPanel>
+                    <TextBlock Text="{Binding CelestialDataVM.SelectedBody.Name, FallbackValue=''}" 
+                               FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding CelestialDataVM.SelectedBody.Description, FallbackValue=''}" 
+                               TextWrapping="Wrap" Margin="0,0,0,10"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,10,0,0">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Magnitude: " FontWeight="Bold"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Magnitude, FallbackValue=''}" />
+                        
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Distance (AU): " FontWeight="Bold"/>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Distance, FallbackValue=''}" />
+                        
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Right Ascension: " FontWeight="Bold"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.RightAscension, FallbackValue=''}" />
+                        
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Declination: " FontWeight="Bold"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Declination, FallbackValue=''}" />
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        
+        <!-- Status Bar -->
+        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Background="#F0F0F0">
+            <TextBlock Grid.Column="0" Text="{Binding CelestialDataVM.StatusMessage}" Margin="10,5"/>
+            <ProgressBar Grid.Column="1" IsVisible="{Binding CelestialDataVM.IsLoading}" IsIndeterminate="True" 
+                         Width="100" Height="10" Margin="0,0,10,0"/>
+        </Grid>
+    </Grid>
 </Window>
