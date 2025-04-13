@@ -60,7 +60,7 @@ namespace SkyLens2.Views
 
         private void OnNavigateStars(object? sender, RoutedEventArgs e)
         {
-            // MainContent.Content = new StarsView();
+            MainContent.Content = new StarsView();
         }
     }
 }
