@@ -100,208 +100,213 @@ namespace SkyLens2.Services
         }
         
         public async Task<CelestialBody> GetCelestialBodyInfoAsync(string query)
-        {
-            // Convert common planet names to their IDs
-            string bodyId = query;
-            if (KnownBodies.TryGetValue(query, out string id))
-            {
-                bodyId = id;
-            }
+{
+    // Convert common planet names to their IDs
+    string bodyId = query;
+    if (KnownBodies.TryGetValue(query, out string id))
+    {
+        bodyId = id;
+    }
 
-            var now = DateTime.Now;
-            var rawResponse = await GetCelestialBodyDataAsync(bodyId, now, now.AddDays(1));
-            
-            try
-            {
-                // Parse JSON response
-                var jsonResponse = JsonDocument.Parse(rawResponse);
-                
-                // Extract result string
-                string result = jsonResponse.RootElement.GetProperty("result").GetString();
-                
-                // Check if there are multiple matches
-                if (result.Contains("Multiple major-bodies match"))
-                {
-                    // Extract the matches
-                    var matches = new List<CelestialBody>();
-                    
-                    // Use regex to extract ID and name pairs
-                    var matchPattern = @"(\d+|-\d+)\s+([^\n]+)";
-                    var matchRegex = new Regex(matchPattern);
-                    var matchResults = matchRegex.Matches(result);
-                    foreach (Match match in matchResults)
-                    {
-                        
-                        if (match.Groups.Count >= 3)
-                        {
-                            var matchedId = match.Groups[1].Value.Trim();
-                            var matchedName = match.Groups[2].Value.Trim();
-                            
-                            matches.Add(new CelestialBody 
-                            { 
-                                Id = matchedId, 
-                                Name = matchedName,
-                                Description = $"ID: {matchedId}"
-                            });
-                        }
-                    }
-                    
-                    if (matches.Count > 0)
-                    {
-                        // Return the first match for now
-                        // In a real app, you'd want to let the user select from the matches
-                        Console.WriteLine($"Found {matches.Count} matches for '{query}'. Using the first match.");
-                        return matches[0];
-                    }
-                    
-                    
-                    return new CelestialBody
-                    {
-                        Id = bodyId,
-                        Name = $"Multiple matches for '{query}'",
-                        Description = "Please use a specific ID instead."
-                    };
-                }
-                var body = new CelestialBody();
-
-                // Extract celestial body name from the result string
-                string name = "Unknown";
-                var targetNameMatch = Regex.Match(result, @"Target body name:\s+([^\n(]+)");
-                if (targetNameMatch.Success)
-                {
-                    name = targetNameMatch.Groups[1].Value.Trim();
-                }
-                
-                // Extract ephemeris data (if available)
-                var ephemerisData = ParseEphemerisData(result);
-                // Add these lines here to extract orbital period and temperature
-                var orbitalPeriodMatch = Regex.Match(result, @"Orbital period\s*=\s*([0-9.]+)");
-                if (orbitalPeriodMatch.Success)
-                {
-                    body.OrbitalPeriod = orbitalPeriodMatch.Groups[1].Value + " days";
-                }
+    var now = DateTime.Now;
+    string rawResponse = "";
     
-                var tempMatch = Regex.Match(result, @"Mean Temperature\s*=\s*([0-9.]+)");
-                if (tempMatch.Success)
-                {
-                    body.SurfaceTemperature = tempMatch.Groups[1].Value + " K";
-                }
-                
-                return new CelestialBody
-                {
-                    Id = bodyId,
-                    Name = name,
-                    Description = "",
-                    EphemerisData = ephemerisData,
-                    OrbitalPeriod = body?.OrbitalPeriod, 
-                    SurfaceTemperature = body?.SurfaceTemperature
-                };
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error parsing response for query '{query}': {ex.Message}");
-                Console.WriteLine($"Raw response snippet: {rawResponse.Substring(0, Math.Min(rawResponse.Length, 500))}");
-                    
-                return new CelestialBody
-                {
-                    Id = bodyId,
-                    Name = $"Error processing '{query}'",
-                    Description = $"Error: {ex.Message}"
-                };
-            }
+    try
+    {
+        rawResponse = await GetCelestialBodyDataAsync(bodyId, now, now.AddDays(1));
+        
+        // Parse JSON response
+        var jsonResponse = JsonDocument.Parse(rawResponse);
+        
+        // Extract result string
+        string result = jsonResponse.RootElement.GetProperty("result").GetString();
+        Console.WriteLine("API Result Length: " + result.Length);
+        
+        // Extract celestial body name from the result string
+        string name = "Unknown";
+        var targetNameMatch = Regex.Match(result, @"Target body name:\s+([^\n(]+)");
+        if (targetNameMatch.Success)
+        {
+            name = targetNameMatch.Groups[1].Value.Trim();
         }
         
-        private EphemerisData ParseEphemerisData(string result)
+        // Create a properly initialized body object
+        var body = new CelestialBody
         {
-            var ephemerisData = new EphemerisData();
+            Id = bodyId,
+            Name = name,
+            Description = ExtractDescription(result)
+        };
+        
+        // Extract ephemeris data (if available)
+        var ephemerisData = ParseEphemerisData(result);
+        body.EphemerisData = ephemerisData;
+        
+        // Extract orbital period and temperature
+        var orbitalPeriodMatch = Regex.Match(result, @"Orbital period\s*=\s*([0-9.]+)");
+        if (orbitalPeriodMatch.Success)
+        {
+            body.OrbitalPeriod = orbitalPeriodMatch.Groups[1].Value + " days";
+        }
+        
+        var tempMatch = Regex.Match(result, @"Mean Temperature\s*=\s*([0-9.]+)");
+        if (tempMatch.Success)
+        {
+            body.SurfaceTemperature = tempMatch.Groups[1].Value + " K";
+        }
+        
+        return body;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error processing '{query}': {ex.Message}");
+        if (!string.IsNullOrEmpty(rawResponse))
+        {
+            Console.WriteLine($"Raw response snippet: {rawResponse.Substring(0, Math.Min(rawResponse.Length, 500))}");
+        }
+        
+        return new CelestialBody
+        {
+            Id = bodyId,
+            Name = $"Error processing '{query}'",
+            Description = $"Error: {ex.Message}"
+        };
+    }
+}
+
+        
+private EphemerisData ParseEphemerisData(string result)
+{
+    var ephemerisData = new EphemerisData();
+    
+    // Look for ephemeris table in the result
+    var ephemerisMatch = Regex.Match(result, @"(?s)\$\$SOE(.*?)\$\$EOE");
+    if (ephemerisMatch.Success)
+    {
+        string ephemerisTable = ephemerisMatch.Groups[1].Value.Trim();
+        // Print the table BEFORE attempting to parse it
+        Console.WriteLine("Ephemeris Table Found. First 100 characters: " + 
+                         ephemerisTable.Substring(0, Math.Min(100, ephemerisTable.Length)));
+        
+        var lines = ephemerisTable.Split('\n');
+        
+        if (lines.Length > 0)
+        {
+            // Get the first line of data
+            var line = lines[0].Trim();
+            Console.WriteLine("Parsing line: " + line);
             
-            // Look for ephemeris table in the result
-            var ephemerisMatch = Regex.Match(result, @"(?s)\$\$SOE(.*?)\$\$EOE");
-            if (ephemerisMatch.Success)
+            // The format is a space-separated table with values in specific positions
+            var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            Console.WriteLine($"Found {parts.Length} data parts");
+            
+            // Based on the actual format of the Horizons API response,
+            // we need to extract values from specific positions
+            
+            // Right Ascension and Declination are typically in the first several columns
+            // Format: 2025-Apr-13 00:00     00 02 33.43 -01 06 20.1  ...
+            if (parts.Length >= 7)
             {
-                string ephemerisTable = ephemerisMatch.Groups[1].Value.Trim();
-                var lines = ephemerisTable.Split('\n');
-                
-                if (lines.Length > 0)
+                // RA is usually in HH MM SS.SS format (parts 3, 4, 5)
+                try
                 {
-                    // Try to determine format by counting commas
-                    var line = lines[0].Trim();
-                    
-                    if (line.Contains(","))
+                    // Convert HH MM SS.SS to decimal degrees
+                    double raHours = double.Parse(parts[3]);
+                    double raMinutes = double.Parse(parts[4]);
+                    double raSeconds = double.Parse(parts[5]);
+                    double rightAscension = 15 * (raHours + raMinutes/60 + raSeconds/3600); // 15 degrees per hour
+                    ephemerisData.RightAscension = rightAscension;
+                    Console.WriteLine($"Parsed RA: {rightAscension}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error parsing RA: {ex.Message}");
+                }
+                
+                // Dec is usually in DD MM SS.S format (parts 6, 7, 8)
+                try
+                {
+                    if (parts.Length >= 9)
                     {
-                        // Comma-separated format
-                        var dataParts = line.Split(',');
-                        if (dataParts.Length >= 4)
-                        {
-                            // Try to parse RA, Dec, Distance, etc.
-                            double ra = 0, dec = 0, dist = 0, mag = 0;
-                            
-                            // The format might vary, so we need to search for relevant data
-                            foreach (var part in dataParts)
-                            {
-                                // Try to parse the number from the part
-                                if (double.TryParse(part.Trim(), out double value))
-                                {
-                                    // Assign values based on position
-                                    // This is a simplification; actual format might differ
-                                    if (ra == 0) ra = value;
-                                    else if (dec == 0) dec = value;
-                                    else if (dist == 0) dist = value;
-                                    else if (mag == 0) mag = value;
-                                }
-                            }
-                            
-                            ephemerisData.RightAscension = ra;
-                            ephemerisData.Declination = dec;
-                            ephemerisData.Distance = dist;
-                            ephemerisData.Magnitude = mag;
-                        }
+                        // Check sign
+                        string decSign = parts[6].StartsWith("-") ? "-" : "";
+                        double decDegrees = Math.Abs(double.Parse(parts[6]));
+                        double decMinutes = double.Parse(parts[7]);
+                        double decSeconds = double.Parse(parts[8]);
+                        
+                        // Convert to decimal degrees
+                        double declination = (decSign == "-" ? -1 : 1) * 
+                            (decDegrees + decMinutes/60 + decSeconds/3600);
+                        ephemerisData.Declination = declination;
+                        Console.WriteLine($"Parsed Dec: {declination}");
                     }
-                    else
-                    {
-                        // Space-separated format
-                        // Extract values based on position or labels
-                        // This will depend on the exact format returned by the API
-                        
-                        var raMatch = Regex.Match(line, @"R\.A\.\s*\(ICRF\)=\s*([0-9.]+)");
-                        var decMatch = Regex.Match(line, @"DEC\s*\(ICRF\)=\s*([0-9.]+)");
-                        var distMatch = Regex.Match(line, @"delta\s*=\s*([0-9.]+)");
-                        var magMatch = Regex.Match(line, @"APmag\s*=\s*([0-9.]+)");
-                        
-                        if (raMatch.Success) 
-                        {
-                            double tempRA;
-                            if (double.TryParse(raMatch.Groups[1].Value, out tempRA))
-                                ephemerisData.RightAscension = tempRA;
-                        }
-
-                        if (decMatch.Success) 
-                        {
-                            double tempDec;
-                            if (double.TryParse(decMatch.Groups[1].Value, out tempDec))
-                                ephemerisData.Declination = tempDec;
-                        }
-
-                        if (distMatch.Success) 
-                        {
-                            double tempDist;
-                            if (double.TryParse(distMatch.Groups[1].Value, out tempDist))
-                                ephemerisData.Distance = tempDist;
-                        }
-
-                        if (magMatch.Success) 
-                        {
-                            double tempMag;
-                            if (double.TryParse(magMatch.Groups[1].Value, out tempMag))
-                                ephemerisData.Magnitude = tempMag;
-                        }
-                    }Console.WriteLine("Ephemeris Table: " + ephemerisTable);
-
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error parsing Dec: {ex.Message}");
                 }
             }
             
-            return ephemerisData;
+            // For more specific fields like distance and magnitude, we need to know their positions
+            // Based on your data, these might be around positions 12-20
+            
+            // Try to find distance (delta) - typically around position 14-15
+            for (int i = 10; i < Math.Min(parts.Length, 25); i++)
+            {
+                if (double.TryParse(parts[i], out double value) && value > 0 && value < 50)
+                {
+                    // A typical solar system distance would be between 0.1 and 50 AU
+                    ephemerisData.Distance = value;
+                    Console.WriteLine($"Found distance at position {i}: {value}");
+                    break;
+                }
+            }
+            
+            // Try to find magnitude - typically in the 25-40 range of values
+            for (int i = 25; i < Math.Min(parts.Length, 40); i++)
+            {
+                if (double.TryParse(parts[i], out double value) && value > 0 && value < 15)
+                {
+                    // Most planets have magnitude between 0 and 15
+                    ephemerisData.Magnitude = value;
+                    Console.WriteLine($"Found magnitude at position {i}: {value}");
+                    break;
+                }
+            }
+            
+            // Alternative: look for specific columns by searching for headers
+            bool foundValues = false;
+            foreach (var headerLine in result.Split('\n'))
+            {
+                if (headerLine.Contains("R.A.") && headerLine.Contains("DEC") && 
+                    headerLine.Contains("delta") && headerLine.Contains("mag"))
+                {
+                    Console.WriteLine("Found header line: " + headerLine);
+                    foundValues = true;
+                    break;
+                }
+            }
+            
+            if (!foundValues)
+            {
+                Console.WriteLine("Could not find column headers to parse data");
+            }
         }
+    }
+    else
+    {
+        Console.WriteLine("No ephemeris table found in API response");
+    }
+    
+    // Log final parsed values
+    Console.WriteLine($"Final data: RA={ephemerisData.RightAscension}, " +
+                     $"Dec={ephemerisData.Declination}, " +
+                     $"Dist={ephemerisData.Distance}, " +
+                     $"Mag={ephemerisData.Magnitude}");
+    
+    return ephemerisData;
+}
+
         
         private string ExtractDescription(string result)
         {
