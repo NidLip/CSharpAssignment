@@ -48,7 +48,7 @@
 
             private void OnNavigateWeather(object? sender, RoutedEventArgs e)
             {
-                
+                MainContent.Content = new WeatherView();
             }
 
             private void OnExploreSkyClick(object? sender, RoutedEventArgs e)
