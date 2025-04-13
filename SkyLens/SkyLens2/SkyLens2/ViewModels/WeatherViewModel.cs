@@ -12,6 +12,55 @@ namespace SkyLens2.ViewModels
         private int _cloudCoverage = 0;
         private string _cloudCoverageText = "Loading...";
         private double _windSpeed = 0.0;
+        private double _sunAngle;
+        private string _moonPhase = "Loading...";
+        private string _moonImpact = "Loading...";
+        private string _pollutionLocation = "Loading...";
+        private string _pollutionLevel = "Loading...";
+        private string _pollutionImpact = "Loading...";
+        private string _sunStage = "Loading...";
+        
+        public string SunStage
+        {
+            get => _sunStage;
+            set => this.RaiseAndSetIfChanged(ref _sunStage, value);
+        }
+
+        public double SunAngle
+        {
+            get => _sunAngle;
+            set => this.RaiseAndSetIfChanged(ref _sunAngle, value);
+        }
+
+        public string MoonPhase
+        {
+            get => _moonPhase;
+            set => this.RaiseAndSetIfChanged(ref _moonPhase, value);
+        }
+
+        public string MoonImpact
+        {
+            get => _moonImpact;
+            set => this.RaiseAndSetIfChanged(ref _moonImpact, value);
+        }
+
+        public string PollutionLocation
+        {
+            get => _pollutionLocation;
+            set => this.RaiseAndSetIfChanged(ref _pollutionLocation, value);
+        }
+
+        public string PollutionLevel
+        {
+            get => _pollutionLevel;
+            set => this.RaiseAndSetIfChanged(ref _pollutionLevel, value);
+        }
+
+        public string PollutionImpact
+        {
+            get => _pollutionImpact;
+            set => this.RaiseAndSetIfChanged(ref _pollutionImpact, value);
+        }
 
         public string CurrentDate
         {
@@ -69,6 +118,15 @@ namespace SkyLens2.ViewModels
             CloudCoverage = 75;  // Example cloud coverage value
             CloudCoverageText = $"Cloud Coverage: High ({CloudCoverage}%)";
             WindSpeed = 15.5;  // Example wind speed value
+            
+            // Example moon phase and impact
+            SunAngle = 42.5;
+            MoonPhase = "Waning Gibbous";
+            MoonImpact = "Moderate";
+            PollutionLocation = "Emmen, Netherlands";
+            PollutionLevel = "Medium";
+            PollutionImpact = "Moderate";
+            SunStage = "Civil Twilight";
         }
     }
 }
