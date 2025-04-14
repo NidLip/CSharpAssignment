@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SCn05kWO3kE=",
+  "dgSpecHash": "J7MPRpo0jkc=",
   "success": true,
   "projectFilePath": "C:\\Users\\anast\\Desktop\\SkyLensC#\\CSharpAssignment\\SkyLens\\SkyLens2\\SkyLens2\\SkyLens2.csproj",
   "expectedPackageFiles": [
@@ -120,8 +120,7 @@
     "C:\\Users\\anast\\.nuget\\packages\\system.threading.timer\\4.3.0\\system.threading.timer.4.3.0.nupkg.sha512",
     "C:\\Users\\anast\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\anast\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\anast\\.nuget\\packages\\tmds.dbus.protocol\\0.20.0\\tmds.dbus.protocol.0.20.0.nupkg.sha512",
-    "C:\\Users\\anast\\.nuget\\packages\\microsoft.net.sdk.compilers.toolset\\9.0.200\\microsoft.net.sdk.compilers.toolset.9.0.200.nupkg.sha512"
+    "C:\\Users\\anast\\.nuget\\packages\\tmds.dbus.protocol\\0.20.0\\tmds.dbus.protocol.0.20.0.nupkg.sha512"
   ],
   "logs": []
 }

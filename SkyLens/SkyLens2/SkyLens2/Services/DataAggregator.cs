@@ -40,7 +40,7 @@ namespace SkyLens2.Services
                 SunAltitude = astro.SunAltitude,
                 SunAzimuth = astro.SunAzimuth,
                 MoonPhase = FormatMoonPhase(astro.MoonPhase),
-                StageOfNight = DetermineStageOfNight(astro.Sunrise, astro.Sunset, localNow),
+                StageOfNight = DetermineStageOfNight(astro.SunAltitude),
                 LocationName = $"{city}, {country}"
             };
         }
@@ -57,21 +57,18 @@ namespace SkyLens2.Services
             return string.Join(" ", words);
         }
 
-        private string DetermineStageOfNight(DateTime sunrise, DateTime sunset, DateTime now)
+        private string DetermineStageOfNight(double sunAltitude)
         {
-            if (now < sunrise)
-                return "Before Dawn";
-            if (now >= sunrise && now < sunset)
+            if (sunAltitude > 0)
                 return "Day";
-
-            var minutesSinceSunset = (now - sunset).TotalMinutes;
-            if (minutesSinceSunset <= 60)
+            else if (sunAltitude > -6)
                 return "Civil Twilight";
-            if (minutesSinceSunset <= 90)
+            else if (sunAltitude > -12)
                 return "Nautical Twilight";
-            if (minutesSinceSunset <= 120)
+            else if (sunAltitude > -18)
                 return "Astronomical Twilight";
-            return "Night";
+            else
+                return "Night";
         }
     }
 }

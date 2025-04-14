@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using SkyLens2.Services;
 
 using ReactiveUI;
 
@@ -16,6 +17,8 @@ namespace SkyLens2.ViewModels
         private int _lightPollution = 0;
         private string _lightPollutionText = "Loading...";
         private string _airTurbulence = "Loading...";
+        
+        private readonly DataAggregator _aggregator = new DataAggregator();
 
         public string MoonPhase
         {
@@ -78,17 +81,61 @@ namespace SkyLens2.ViewModels
         
         public async Task LoadWeatherDataAsync()
         {
-            await Task.Delay(1000); // Simulate API call
+            try
+            {
+                var data = await _aggregator.GetAggregatedDataAsync();
 
-            MoonPhase = "Waxing Gibbous";
-            ObservationOutlook = "Favorable";
-            OutlookReason = "Clear skies and moderate light pollution";
-            RecommendedObservationTime = "22:15 - 03:30";
-            CloudCoverage = 12;
-            CloudCoverageText = "Clear (12%)";
-            LightPollution = 35;
-            LightPollutionText = "Medium (35%)";
-            AirTurbulence = "Stable";
+                MoonPhase = data.MoonPhase;
+
+                CloudCoverage = (int)data.CloudCoverage;
+                CloudCoverageText = $"{GetCloudLabel(CloudCoverage)} ({CloudCoverage}%)";
+
+                LightPollution = CloudCoverage > 60 ? 70 : 35;
+                LightPollutionText = $"{GetPollutionLabel(LightPollution)} ({LightPollution}%)";
+
+                ObservationOutlook = (CloudCoverage < 30 && LightPollution < 40)
+                    ? "Favorable"
+                    : "Limited";
+
+                OutlookReason = (CloudCoverage < 30)
+                    ? "Clear skies"
+                    : "Cloudy or light-polluted skies";
+
+                RecommendedObservationTime = "22:00 - 03:00";
+
+                AirTurbulence = data.WindSpeed switch
+                {
+                    < 5 => "Stable",
+                    < 15 => "Moderate",
+                    _ => "Unstable"
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[MainWindowViewModel] Error loading weather data: {ex.Message}");
+                ObservationOutlook = "Unavailable";
+            }
+        }
+        
+        private string GetCloudLabel(int percentage)
+        {
+            return percentage switch
+            {
+                <= 20 => "Clear",
+                <= 50 => "Partly Cloudy",
+                <= 80 => "Mostly Cloudy",
+                _ => "Overcast"
+            };
+        }
+
+        private string GetPollutionLabel(int level)
+        {
+            return level switch
+            {
+                <= 30 => "Low",
+                <= 60 => "Moderate",
+                _ => "High"
+            };
         }
     }
 }
