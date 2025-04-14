@@ -55,7 +55,7 @@ namespace SkyLens2.Views
 
         private void OnNavigatePlanets(object? sender, RoutedEventArgs e)
         {
-            // MainContent.Content = new PlanetsView();
+            MainContent.Content = new PlanetsView();
         }
 
         private void OnNavigateStars(object? sender, RoutedEventArgs e)

@@ -42,11 +42,11 @@
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="Azimuth: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Azimuth}°"/>
+                                    <TextBlock Text="{Binding Azimuth}"/>
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="Altitude: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Altitude}°"/>
+                                    <TextBlock Text="{Binding Altitude}"/>
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="Constellation: " FontWeight="Bold"/>
