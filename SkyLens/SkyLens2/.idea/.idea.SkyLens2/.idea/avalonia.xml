@@ -3,7 +3,16 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="SkyLens2/App.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/ConstellationsView.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/HomeView.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/InfoView.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/MainView.axaml" value="SkyLens2/SkyLens2.csproj" />
         <entry key="SkyLens2/Views/MainWindow.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/PlanetsView.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/StarsView.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/Weather.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/WeatherView.axaml" value="SkyLens2/SkyLens2.csproj" />
       </map>
     </option>
   </component>

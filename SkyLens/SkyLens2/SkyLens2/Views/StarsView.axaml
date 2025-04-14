@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModels="clr-namespace:SkyLens2.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="SkyLens2.Views.StarsView"
+             x:DataType="viewModels:StarViewModel">
+    
+    <UserControl.Styles>
+        <!-- Define a resource dictionary that contains the style -->
+        
+        <Style Selector="TextBlock /template/ ContentPresenter#PART_ContentPresenter"> 
+            <Setter Property="Foreground" Value="Black"/> <!-- Make text color black -->
+            <Setter Property="FontSize" Value="16"/> <!-- Set a default font size -->
+        </Style>
+        
+    </UserControl.Styles>
+
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20, 20" Spacing="16" HorizontalAlignment="Stretch" MaxWidth="1000" TextElement.Foreground="#FFE1FF">
+            <TextBlock Text="Visible Stars Overview" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
+
+            <ItemsControl ItemsSource="{Binding Stars}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray"
+                                Background="#6C48C5"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Margin="0,0,0,20"
+                                Padding="20">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding Type}" FontStyle="Italic" Margin="0,0,0,4"/>
+                                    <WrapPanel>
+                                        <TextBlock Text="Distance: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Distance}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Absolute Magnitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding AbsoluteMagnitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Apparent Magnitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding ApparentMagnitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Azimuth: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Azimuth}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Altitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Altitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Constellation: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Constellation}"/>
+                                    </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

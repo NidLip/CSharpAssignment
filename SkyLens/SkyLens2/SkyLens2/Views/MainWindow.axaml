@@ -1,79 +1,50 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SkyLens2.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:models="using:SkyLens2.Models"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:viewModels="clr-namespace:SkyLens2.ViewModels"
         x:Class="SkyLens2.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="SkyLens2">
-
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-
+        x:DataType="viewModels:MainWindowViewModel"
+        Title="SkyLens"
+        Width="1400" Height="900"
+        Background="#1230AE"
+        FontFamily="Arial">
+    
     <Grid RowDefinitions="Auto,*,Auto">
         <!-- Header -->
-        <StackPanel Grid.Row="0" Margin="10">
-            <TextBlock Text="{Binding Greeting}" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
-            <TextBlock Text="NASA Horizon API Data Explorer" FontSize="16" Margin="0,0,0,10"/>
-            
-            <!-- Search Box -->
-            <DockPanel>
-                <Button DockPanel.Dock="Right" Content="Search" Command="{Binding CelestialDataVM.SearchCommand}" 
-                        Margin="5,0,0,0"/>
-                <TextBox Watermark="Enter celestial body ID or name" 
-                         Text="{Binding CelestialDataVM.SearchQuery}"/>
-            </DockPanel>
-        </StackPanel>
+        <Border Grid.Row="0" Background="#FFE1FF" Padding="15" BorderBrush="#CCCCCC" BorderThickness="0 0 0 1">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
+                <!-- Left: Logo -->
+                <Image Source="avares://SkyLens2/Assets/SkyLensLogo.png"
+                       Width="100"
+                       Grid.Column="0"
+                       Margin="0 0 10 0"
+                       VerticalAlignment="Center"/>
+
+                <!-- Center: Navigation Buttons -->
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="30">
+                    <Button Content="Home" Click="OnNavigateHome" Classes="HeaderButton"/>
+                    <Button Content="Weather" Click="OnNavigateWeather" Classes="HeaderButton"/>
+                    <Button Content="Constellations" Click="OnNavigateConstellations" Classes="HeaderButton"/>
+                </StackPanel>
+
+                <!-- Right: Location and DateTime -->
+                <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <TextBlock Text="Emmen, Netherlands" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="DateTimeText" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Grid>
+        </Border>
         
         <!-- Main Content -->
-        <Grid Grid.Row="1" ColumnDefinitions="250,*" Margin="10">
-            <!-- Left Panel: List of Celestial Bodies -->
-            <ListBox Grid.Column="0" 
-                     ItemsSource="{Binding CelestialDataVM.CelestialBodies}"
-                     SelectedItem="{Binding CelestialDataVM.SelectedBody}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate x:DataType="models:CelestialBody">
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            
-            <!-- Right Panel: Details -->
-            <ScrollViewer Grid.Column="1" Margin="10,0,0,0">
-                <StackPanel>
-                    <TextBlock Text="{Binding CelestialDataVM.SelectedBody.Name, FallbackValue=''}" 
-                               FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding CelestialDataVM.SelectedBody.Description, FallbackValue=''}" 
-                               TextWrapping="Wrap" Margin="0,0,0,10"/>
-                    
-                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,10,0,0">
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Magnitude: " FontWeight="Bold"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Magnitude, FallbackValue=''}" />
-                        
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Distance (AU): " FontWeight="Bold"/>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Distance, FallbackValue=''}" />
-                        
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Right Ascension: " FontWeight="Bold"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.RightAscension, FallbackValue=''}" />
-                        
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Declination: " FontWeight="Bold"/>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding CelestialDataVM.SelectedBody.EphemerisData.Declination, FallbackValue=''}" />
-                    </Grid>
-                </StackPanel>
-            </ScrollViewer>
-        </Grid>
-        
-        <!-- Status Bar -->
-        <Grid Grid.Row="2" ColumnDefinitions="*,Auto" Background="#F0F0F0">
-            <TextBlock Grid.Column="0" Text="{Binding CelestialDataVM.StatusMessage}" Margin="10,5"/>
-            <ProgressBar Grid.Column="1" IsVisible="{Binding CelestialDataVM.IsLoading}" IsIndeterminate="True" 
-                         Width="100" Height="10" Margin="0,0,10,0"/>
-        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <ContentControl x:Name="MainContent"
+                            HorizontalAlignment="Center"
+                            Margin="20"
+                            MaxWidth="1400"/>
+        </ScrollViewer>
+
+        <!-- Footer -->
+        <Border Grid.Row="2" Background="#FFE1FF" Padding="10">
+            <TextBlock Text="© 2025 SkyLens" Foreground="#999999" HorizontalAlignment="Center" FontSize="12"/>
+        </Border>
     </Grid>
 </Window>

@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:SkyLens2.ViewModels"
+             x:Class="SkyLens2.Views.PlanetsView"
+             x:DataType="viewModels:PlanetViewModel">
+    <ScrollViewer>
+        <StackPanel Margin="20" TextElement.Foreground="Black">
+            <TextBlock Text="Visible Planets Overview" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <ItemsControl ItemsSource="{Binding Planets}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="SemiBold"/>
+                                <WrapPanel>
+                                    <TextBlock Text="Radius: " FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Radius}"/>
+                                </WrapPanel>
+                                <WrapPanel>
+                                    <TextBlock Text="Distance from Sun: " FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Distance}"/>
+                                </WrapPanel>
+                                <WrapPanel>
+                                    <TextBlock Text="Mass: " FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Mass}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
