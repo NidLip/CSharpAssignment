@@ -98,10 +98,9 @@ namespace SkyLens2.Services
             
             return planets;
         }
-        
         public async Task<CelestialBody> GetCelestialBodyInfoAsync(string query)
-{
-    // Convert common planet names to their IDs
+        {
+    
     string bodyId = query;
     if (KnownBodies.TryGetValue(query, out string id))
     {
@@ -115,14 +114,11 @@ namespace SkyLens2.Services
     {
         rawResponse = await GetCelestialBodyDataAsync(bodyId, now, now.AddDays(1));
         
-        // Parse JSON response
         var jsonResponse = JsonDocument.Parse(rawResponse);
         
-        // Extract result string
         string result = jsonResponse.RootElement.GetProperty("result").GetString();
         Console.WriteLine("API Result Length: " + result.Length);
         
-        // Extract celestial body name from the result string
         string name = "Unknown";
         var targetNameMatch = Regex.Match(result, @"Target body name:\s+([A-Za-z\s\-]+)");
         if (targetNameMatch.Success)
@@ -307,37 +303,142 @@ private EphemerisData ParseEphemerisData(string result)
 
         
         private string ExtractDescription(string result)
+{
+    var descriptions = new List<string>();
+    
+    try
+    {
+        // Extract radius with multiple pattern attempts
+        var radiusPatterns = new[] {
+            @"Mean radius \(km\)\s*=\s*([0-9.]+)",
+            @"Vol\. Mean Radius \(km\)\s*=\s*([0-9.]+)",
+            @"Equatorial radius \(km\)\s*=\s*([0-9.]+)",
+            @"Volumetric mean radius \(km\)\s*=\s*([0-9.]+)"
+        };
+        
+        bool foundRadius = false;
+        foreach (var pattern in radiusPatterns)
         {
-            // Extract relevant information from the result text
-            var descriptions = new List<string>();
-            
-            var radiusMatch = Regex.Match(result, @"Mean radius \(km\).*?=\s+([0-9.]+)");
-            if (radiusMatch.Success)
+            var match = Regex.Match(result, pattern);
+            if (match.Success)
             {
-                descriptions.Add($"Radius: {radiusMatch.Groups[1].Value} km");
+                descriptions.Add($"Radius:{match.Groups[1].Value} km");
+                foundRadius = true;
+                break;
             }
-            
-            var massMatch = Regex.Match(result, @"Mass.*?=\s+([0-9.]+)");
-            if (massMatch.Success)
-            {
-                descriptions.Add($"Mass: {massMatch.Groups[1].Value} kg");
-            }
-            
-            // Extract other interesting properties
-            var rotPeriodMatch = Regex.Match(result, @"rot\. period\s*=\s*([0-9.]+)");
-            if (rotPeriodMatch.Success)
-            {
-                descriptions.Add($"Rotation period: {rotPeriodMatch.Groups[1].Value} hours");
-            }
-            
-            if (descriptions.Count == 0)
-            {
-                // If no specific properties found, provide a generic description
-                return "No detailed information available";
-            }
-            
-            return string.Join(", ", descriptions);
         }
+        
+        if (!foundRadius)
+        {
+            descriptions.Add("Radius:Not available in API response");
+        }
+        
+        // Extract mass with improved scientific notation handling
+        bool foundMass = false;
+        
+        // Format 1: "Mass x10^n (kg) = x.xx"
+        var massPattern1 = @"Mass\s*x10\^(\d+)\s*\(kg\)\s*=\s*([0-9.]+)";
+        var massMatch1 = Regex.Match(result, massPattern1);
+        if (massMatch1.Success && massMatch1.Groups.Count >= 3)
+        {
+            string exponent = massMatch1.Groups[1].Value;
+            string baseValue = massMatch1.Groups[2].Value;
+            descriptions.Add($"Mass:{baseValue}E+{exponent} kg");
+            foundMass = true;
+        }
+        
+        // Format 2: "Mass (10^n kg) = x.xx"
+        if (!foundMass)
+        {
+            var massPattern2 = @"Mass\s*\(10\^(\d+)\s*kg\)\s*=\s*([0-9.]+)";
+            var massMatch2 = Regex.Match(result, massPattern2);
+            if (massMatch2.Success && massMatch2.Groups.Count >= 3)
+            {
+                string exponent = massMatch2.Groups[1].Value;
+                string baseValue = massMatch2.Groups[2].Value;
+                descriptions.Add($"Mass:{baseValue}E+{exponent} kg");
+                foundMass = true;
+            }
+        }
+        
+        // Format 3: "Mass GM (km^3/s^2) = x.xx x 10^n"
+        if (!foundMass)
+        {
+            var massPattern3 = @"Mass GM \(km\^3/s\^2\)\s*=\s*([0-9.]+)\s*x\s*10\^(\d+)";
+            var massMatch3 = Regex.Match(result, massPattern3);
+            if (massMatch3.Success && massMatch3.Groups.Count >= 3)
+            {
+                string baseValue = massMatch3.Groups[1].Value;
+                string exponent = massMatch3.Groups[2].Value;
+                descriptions.Add($"Mass:{baseValue}E+{exponent} kg");
+                foundMass = true;
+            }
+        }
+        
+        // Try any generic format with scientific notation
+        if (!foundMass)
+        {
+            var massGenericPattern = @"Mass.*?([0-9.]+)\s*[xX]\s*10\^(\d+)";
+            var massGenericMatch = Regex.Match(result, massGenericPattern);
+            if (massGenericMatch.Success && massGenericMatch.Groups.Count >= 3)
+            {
+                string baseValue = massGenericMatch.Groups[1].Value;
+                string exponent = massGenericMatch.Groups[2].Value;
+                descriptions.Add($"Mass:{baseValue}E+{exponent} kg");
+                foundMass = true;
+            }
+        }
+        
+        if (!foundMass)
+        {
+            descriptions.Add("Mass:Not available in API response");
+        }
+        
+        // Extract distance from sun (semi-major axis)
+        var distancePatterns = new[] {
+            @"Semi-major axis\s*\(AU\)\s*=\s*([0-9.]+)",
+            @"semi-major axis\s*=\s*([0-9.]+)",
+            @"a\s*\(AU\)\s*=\s*([0-9.]+)",
+            @"mean distance.*?=\s*([0-9.]+)\s*AU"
+        };
+        
+        bool foundDistance = false;
+        foreach (var pattern in distancePatterns)
+        {
+            var match = Regex.Match(result, pattern);
+            if (match.Success)
+            {
+                descriptions.Add($"Distance from Sun:{match.Groups[1].Value} AU");
+                foundDistance = true;
+                break;
+            }
+        }
+        
+        if (!foundDistance)
+        {
+            descriptions.Add("Distance from Sun:Not available in API response");
+        }
+        
+        // Add debug output to see what's in the API response
+        Console.WriteLine("API Response Excerpt (for Mass detection):");
+        // Find position of "Mass" in the result
+        int massPos = result.IndexOf("Mass");
+        if (massPos >= 0)
+        {
+            // Extract a chunk of text around "Mass" for debugging
+            int start = Math.Max(0, massPos - 10);
+            int length = Math.Min(100, result.Length - start);
+            Console.WriteLine(result.Substring(start, length));
+        }
+    }
+    catch (Exception ex)
+    {
+        return $"Error parsing data: {ex.Message}";
+    }
+    
+    return string.Join("\n", descriptions);
+}
+
         
         public async Task<List<CelestialBody>> SearchAsync(string query)
         {
