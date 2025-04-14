@@ -70,3 +70,9 @@ C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\Debug\net9.0\SkyLens2.csproj.Up2Date
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\Debug\net9.0\SkyLens2.genruntimeconfig.cache
 C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\obj\Debug\net9.0\ref\SkyLens2.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\DotNetEnv.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Microsoft.Extensions.Configuration.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\Users\anast\Desktop\SkyLensC#\CSharpAssignment\SkyLens\SkyLens2\SkyLens2\bin\Debug\net9.0\Sprache.dll

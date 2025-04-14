@@ -135,8 +135,12 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-/SkyLens/SkyLens2/SkyLens2/obj
-.DS_Store
-SkyLens/SkyLens2/SkyLens2/bin/Debug/net9.0/SkyLens2.deps.json
-*.dll
-*.pdb
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+*.vs/
+*.env
