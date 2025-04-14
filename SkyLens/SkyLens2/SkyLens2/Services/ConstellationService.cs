@@ -18,7 +18,7 @@ namespace SkyLens2
         public ConstellationService()
         {
             _httpClient = new HttpClient();
-            FetchConstellationsAsync(); // Optional on start
+            FetchConstellationsAsync();
         }
 
         public async Task FetchAndSaveRawDataAsync()

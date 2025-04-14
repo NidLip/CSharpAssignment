@@ -9,24 +9,20 @@
         FontFamily="Arial">
     
     <Grid RowDefinitions="Auto,*,Auto">
-        <!-- Header -->
         <Border Grid.Row="0" Background="#FFE1FF" Padding="15" BorderBrush="#CCCCCC" BorderThickness="0 0 0 1">
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-                <!-- Left: Logo -->
                 <Image Source="avares://SkyLens2/Assets/SkyLensLogo.png"
                        Width="100"
                        Grid.Column="0"
                        Margin="0 0 10 0"
                        VerticalAlignment="Center"/>
-
-                <!-- Center: Navigation Buttons -->
+                
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" Spacing="30">
                     <Button Content="Home" Click="OnNavigateHome" Classes="HeaderButton"/>
                     <Button Content="Weather" Click="OnNavigateWeather" Classes="HeaderButton"/>
                     <Button Content="Constellations" Click="OnNavigateConstellations" Classes="HeaderButton"/>
                 </StackPanel>
-
-                <!-- Right: Location and DateTime -->
+                
                 <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock Text="Emmen, Netherlands" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
                     <TextBlock x:Name="DateTimeText" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
@@ -34,15 +30,13 @@
             </Grid>
         </Border>
         
-        <!-- Main Content -->
         <ScrollViewer Grid.Row="1">
             <ContentControl x:Name="MainContent"
                             HorizontalAlignment="Center"
                             Margin="20"
                             MaxWidth="1400"/>
         </ScrollViewer>
-
-        <!-- Footer -->
+        
         <Border Grid.Row="2" Background="#FFE1FF" Padding="10">
             <TextBlock Text="© 2025 SkyLens" Foreground="#999999" HorizontalAlignment="Center" FontSize="12"/>
         </Border>

@@ -8,13 +8,10 @@
              x:DataType="viewModels:StarViewModel">
     
     <UserControl.Styles>
-        <!-- Define a resource dictionary that contains the style -->
-        
         <Style Selector="TextBlock /template/ ContentPresenter#PART_ContentPresenter"> 
-            <Setter Property="Foreground" Value="Black"/> <!-- Make text color black -->
-            <Setter Property="FontSize" Value="16"/> <!-- Set a default font size -->
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="16"/>
         </Style>
-        
     </UserControl.Styles>
 
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">

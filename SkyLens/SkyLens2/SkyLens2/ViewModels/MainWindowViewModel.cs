@@ -75,8 +75,7 @@ namespace SkyLens2.ViewModels
         }
         public MainWindowViewModel()
         {
-            // Start loading the data right after the ViewModel is created
-            _ = LoadWeatherDataAsync(); // Fire-and-forget async call
+            _ = LoadWeatherDataAsync();
         }
         
         public async Task LoadWeatherDataAsync()

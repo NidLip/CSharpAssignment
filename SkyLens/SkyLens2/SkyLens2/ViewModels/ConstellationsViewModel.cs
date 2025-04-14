@@ -14,7 +14,7 @@ public class ConstellationsViewModel : ViewModelBase
 
     public ConstellationsViewModel()
     {
-        _ = LoadDataAsync(); // fire-and-forget on startup
+        _ = LoadDataAsync();
     }
 
     private async Task LoadDataAsync()

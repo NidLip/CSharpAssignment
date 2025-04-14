@@ -5,14 +5,12 @@
              x:DataType="viewModels:MainWindowViewModel">
     <ScrollViewer>
         <StackPanel HorizontalAlignment="Center" MaxWidth="1400" Spacing="30" Margin="20">
-            <!-- Observation Section -->
             <Border Background="#6C48C5"
                     CornerRadius="30"
                     Padding="20"
                     Width="1000"
                     HorizontalAlignment="Center">
                 <Grid ColumnDefinitions="*,Auto" VerticalAlignment="Center">
-                    <!-- Left Column -->
                     <StackPanel Margin="20 0 30 0" VerticalAlignment="Center" Spacing="6">
                         <TextBlock Text="Explore the universe"
                                    FontSize="30"
@@ -33,8 +31,7 @@
                                    FontWeight="Bold"
                                    Foreground="#FFE1FF"/>
                     </StackPanel>
-                            
-                    <!-- Right Column (Moon) -->
+                    
                     <Border Background="#E4B1F0"
                             CornerRadius="20"
                             Padding="20"
@@ -54,13 +51,12 @@
                     </Border>
                 </Grid>
             </Border>
-
-            <!-- Weather Section -->
+            
             <Border Background="#6C48C5" CornerRadius="30" Padding="20">
                 <StackPanel Spacing="20">
                     <TextBlock Foreground="#FFE1FF" Text="Weather" FontSize="30" FontWeight="Bold" Margin="0 0 0 30" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="160">
-                        <!-- Cloud Cover -->
+                        
                         <StackPanel Spacing="10" HorizontalAlignment="Center">
                             <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
                                 <Image Source="avares://SkyLens2/Assets/CloudCoverIcon.png" Width="100" Height="100"/>
@@ -68,8 +64,7 @@
                             <TextBlock Foreground="#FFE1FF" Text="Cloud Cover: " HorizontalAlignment="Center" Padding="0 30 0 0"/>
                             <TextBlock Foreground="#FFE1FF" Text="{Binding CloudCoverageText}" FontWeight="Bold" HorizontalAlignment="Center"/>
                         </StackPanel>
-
-                        <!-- Light Pollution -->
+                        
                         <StackPanel Spacing="10" HorizontalAlignment="Center">
                             <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
                                 <Image Source="avares://SkyLens2/Assets/LightPollutionIcon.png" Width="100" Height="100"/>
@@ -77,8 +72,7 @@
                             <TextBlock Foreground="#FFE1FF" Text="Light Pollution: " HorizontalAlignment="Center" Padding="0 30 0 0"/>
                             <TextBlock Foreground="#FFE1FF" Text="{Binding LightPollutionText}" FontWeight="Bold" HorizontalAlignment="Center"/>
                         </StackPanel>
-
-                        <!-- Air Turbulence -->
+                        
                         <StackPanel Spacing="10" HorizontalAlignment="Center">
                             <Border Background="#E4B1F0" BorderThickness="2" CornerRadius="15" Padding="20">
                                 <Image Source="avares://SkyLens2/Assets/AirTurbulenceIcon.png" Width="100" Height="100"/>
@@ -88,8 +82,7 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
-            <!-- Explore Section -->
+            
             <Border Background="#6C48C5" CornerRadius="30" Padding="20">
                 <StackPanel Spacing="20">
                     <TextBlock Foreground="#FFE1FF" Text="Explore" FontSize="30" FontWeight="Bold" Margin="0 0 0 30" HorizontalAlignment="Center"/>

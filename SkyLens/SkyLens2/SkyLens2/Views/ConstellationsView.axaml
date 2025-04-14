@@ -26,7 +26,6 @@
                                 BorderThickness="1">
 
                             <DockPanel LastChildFill="True" VerticalAlignment="Center" MinHeight="150" MaxHeight="250">
-                                <!-- Image on the left -->
                                 <Border Background="Black" Margin="5">
                                     <StackPanel>
                                         <Image Source="{Binding ImageUrl}"
@@ -40,8 +39,7 @@
                                         <TextBlock Foreground="White" FontSize="8" FontStyle="Italic" Text="{Binding ImageUrl}"/>
                                     </StackPanel>
                                 </Border>
-
-                                <!-- Info on the right -->
+                                
                                 <StackPanel Spacing="6">
                                     <TextBlock Text="{Binding LatinName}"
                                                FontSize="20"

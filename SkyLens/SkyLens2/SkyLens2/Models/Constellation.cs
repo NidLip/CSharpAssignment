@@ -1,14 +1,12 @@
 public class Constellation
 {
-    // General info
     public string IAUCode { get; set; }
     public string LatinName { get; set; }
     public string EnglishName { get; set; }
     public string FrenchName { get; set; }
     public string Season { get; set; }
     public string NameOrigin { get; set; }
-
-    // Positional & spatial info
+    
     public string Declination { get; set; }
     public string RightAscension { get; set; }
     public string PrincipalStar { get; set; }

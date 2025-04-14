@@ -7,35 +7,30 @@
     <ScrollViewer>
         <StackPanel HorizontalAlignment="Center" MaxWidth="1400" Spacing="30" Margin="20">
             
-            <!-- Heading -->
             <TextBlock Text="Weather Conditions"
                        FontSize="32"
                        FontWeight="Bold"
                        Foreground="#FFE1FF"
                        HorizontalAlignment="Center"
                        Margin="0 20 0 10"/>
-
-            <!-- First Section: Date Row with Info -->
+            
             <Border Background="#6C48C5"
                     CornerRadius="30"
                     Padding="30"
                     Width="1000"
                     HorizontalAlignment="Center">
                 <Grid ColumnDefinitions="1*,1*,1*">
-        
-                    <!-- Today -->
+                    
                     <StackPanel Grid.Column="0" Spacing="10" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding CurrentDate}" FontSize="20" FontWeight="Bold" Foreground="#FFE1FF"/>
                         <TextBlock Text="{Binding CloudCoverageText}" FontSize="16" Foreground="#FFE1FF"/>
                         <TextBlock Text="{Binding WindSpeed, StringFormat='Wind Speed: {0:F2} km/h'}" FontSize="16" Foreground="#FFE1FF"/>
                     </StackPanel>
-
-                    <!-- Next Day -->
+                    
                     <StackPanel Grid.Column="1" Spacing="10" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding NextDate1}" FontSize="20" FontWeight="Bold" Foreground="#FFE1FF"/>
                     </StackPanel>
-
-                    <!-- Day After Next -->
+                    
                     <StackPanel Grid.Column="2" Spacing="10" HorizontalAlignment="Right">
                         <TextBlock Text="{Binding NextDate2}" FontSize="20" FontWeight="Bold" Foreground="#FFE1FF"/>
                     </StackPanel>
@@ -43,7 +38,6 @@
                 </Grid>
             </Border>
             
-            <!-- Sky Brightness Section -->
             <Border Background="#6C48C5"
                     CornerRadius="50"
                     Padding="30"
@@ -53,17 +47,14 @@
                     Height="200">
         
                 <StackPanel>
-                    <!-- Section Title -->
                     <TextBlock Text="Sky Brightness"
                                FontSize="28"
                                FontWeight="Bold"
                                Foreground="#FFE1FF"
                                HorizontalAlignment="Center"
                                Margin="0 0 0 30"/>
-
-                    <!-- Content Grid -->
+                    
                     <Grid ColumnDefinitions="*,*,*" HorizontalAlignment="Center" Width="900">
-                        <!-- Sun Position -->
                         <StackPanel Grid.Column="0" HorizontalAlignment="Left" Spacing="8">
                             <TextBlock Text="Sun Position"
                                        FontSize="20"
@@ -74,8 +65,7 @@
                             <TextBlock Text="{Binding SunStage, StringFormat='Stage: {0}'}"
                                        Foreground="#FFE1FF"/>
                         </StackPanel>
-
-                        <!-- Moon Info -->
+                        
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center" Spacing="8">
                             <TextBlock Text="Moon Info"
                                        FontSize="20"
@@ -90,7 +80,6 @@
                                        HorizontalAlignment="Center"/>
                         </StackPanel>
 
-                        <!-- Light Pollution -->
                         <StackPanel Grid.Column="2" HorizontalAlignment="Right" Spacing="8">
                             <TextBlock Text="Light Pollution"
                                        FontSize="20"
@@ -106,7 +95,6 @@
                     </Grid>
                 </StackPanel>
             </Border>
-            
         </StackPanel>
     </ScrollViewer>
 </UserControl>

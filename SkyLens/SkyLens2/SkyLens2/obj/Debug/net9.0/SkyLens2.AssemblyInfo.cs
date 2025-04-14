@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SkyLens2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0872d2481954aab9680d6adef817b19e2ee543f8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e5d4134f60b56ddfd063584689d6890fcac2157")]
 [assembly: System.Reflection.AssemblyProductAttribute("SkyLens2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SkyLens2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
