@@ -8,27 +8,29 @@ namespace SkyLens2.Services
     {
         private readonly WeatherService _weatherService;
         private readonly AstronomyService _astronomyService;
+        private readonly LocationService _locationService;
 
-        // Use parameterless constructors—services themselves load their API keys.
         public DataAggregator()
         {
             _weatherService = new WeatherService();
             _astronomyService = new AstronomyService();
+            _locationService = new LocationService();
         }
 
-        public async Task<AggregatedData> GetAggregatedDataAsync(double lat, double lon)
+        public async Task<AggregatedData> GetAggregatedDataAsync()
         {
-            // Call API endpoints concurrently.
+            var (lat, lon, city, country, offsetMinutes) = await _locationService.GetUserLocationInfoAsync();
+
             Task<WeatherData> weatherTask = _weatherService.GetWeatherDataAsync(lat, lon);
             Task<AstronomyData> astronomyTask = _astronomyService.GetAstronomyDataAsync(lat, lon);
 
             await Task.WhenAll(weatherTask, astronomyTask);
 
-            WeatherData weather = weatherTask.Result;
-            AstronomyData astro = astronomyTask.Result;
-            DateTime now = DateTime.UtcNow;
+            var weather = weatherTask.Result;
+            var astro = astronomyTask.Result;
+            var localNow = DateTime.UtcNow.AddMinutes(offsetMinutes);
 
-            AggregatedData aggregated = new AggregatedData
+            return new AggregatedData
             {
                 CloudCoverage = weather.CloudCoverage,
                 WindSpeed = weather.WindSpeed,
@@ -38,13 +40,11 @@ namespace SkyLens2.Services
                 SunAltitude = astro.SunAltitude,
                 SunAzimuth = astro.SunAzimuth,
                 MoonPhase = astro.MoonPhase,
-                StageOfNight = DetermineStageOfNight(astro.Sunrise, astro.Sunset, now)
+                StageOfNight = DetermineStageOfNight(astro.Sunrise, astro.Sunset, localNow),
+                LocationName = $"{city}, {country}"
             };
-
-            return aggregated;
         }
 
-        // Simple logic to determine the stage of the night.
         private string DetermineStageOfNight(DateTime sunrise, DateTime sunset, DateTime now)
         {
             if (now < sunrise)

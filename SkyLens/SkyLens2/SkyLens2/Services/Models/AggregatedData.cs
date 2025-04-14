@@ -13,5 +13,6 @@ namespace SkyLens2.Services.Models
         public double SunAzimuth { get; set; }
         public string MoonPhase { get; set; }
         public string StageOfNight { get; set; }
+        public string LocationName { get; set; }
     }
 }
