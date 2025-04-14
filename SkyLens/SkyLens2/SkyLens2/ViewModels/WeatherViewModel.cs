@@ -1,11 +1,13 @@
 using System;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SkyLens2.Services;
 
 namespace SkyLens2.ViewModels
 {
     public partial class WeatherViewModel : ReactiveObject
     {
+        private readonly DataAggregator _dataAggregator = new DataAggregator();
         private string _currentDate = "Loading...";
         private string _nextDate1 = "Loading...";
         private string _nextDate2 = "Loading...";
@@ -19,6 +21,7 @@ namespace SkyLens2.ViewModels
         private string _pollutionLevel = "Loading...";
         private string _pollutionImpact = "Loading...";
         private string _sunStage = "Loading...";
+        
         
         public string SunStage
         {
@@ -106,27 +109,60 @@ namespace SkyLens2.ViewModels
 
         public async Task LoadWeatherDataAsync()
         {
-            await Task.Delay(1000); // Simulate API call
+            try
+            {
+                var data = await _dataAggregator.GetAggregatedDataAsync();
 
-            // Get current date and next two days dynamically
-            var today = DateTime.Now;
-            CurrentDate = today.ToString("MMMM dd");
-            NextDate1 = today.AddDays(1).ToString("MMMM dd");
-            NextDate2 = today.AddDays(2).ToString("MMMM dd");
+                CurrentDate = DateTime.Now.ToString("MMMM dd");
+                NextDate1 = DateTime.Now.AddDays(1).ToString("MMMM dd");
+                NextDate2 = DateTime.Now.AddDays(2).ToString("MMMM dd");
 
-            // Example data fetching (replace with actual API calls)
-            CloudCoverage = 75;  // Example cloud coverage value
-            CloudCoverageText = $"Cloud Coverage: High ({CloudCoverage}%)";
-            WindSpeed = 15.5;  // Example wind speed value
-            
-            // Example moon phase and impact
-            SunAngle = 42.5;
-            MoonPhase = "Waning Gibbous";
-            MoonImpact = "Moderate";
-            PollutionLocation = "Emmen, Netherlands";
-            PollutionLevel = "Medium";
-            PollutionImpact = "Moderate";
-            SunStage = "Civil Twilight";
+                CloudCoverage = (int)data.CloudCoverage;
+                CloudCoverageText = $"Cloud Coverage: {PollutionLevelDescription(data.CloudCoverage)} ({data.CloudCoverage}%)";
+                WindSpeed = data.WindSpeed;
+
+                SunAngle = data.SunAltitude;
+                SunStage = data.StageOfNight;
+
+                MoonPhase = data.MoonPhase;
+                MoonImpact = GetMoonImpact(data.MoonPhase);
+
+                PollutionLocation = data.LocationName;
+                PollutionLevel = GetPollutionLevelDescription(data.CloudCoverage);
+                PollutionImpact = GetPollutionImpact(data.CloudCoverage);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error loading weather data:");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+            }
+        }
+        
+        private string GetMoonImpact(string phase)
+        {
+            if (phase.Contains("Full", StringComparison.OrdinalIgnoreCase)) return "High";
+            if (phase.Contains("Gibbous", StringComparison.OrdinalIgnoreCase)) return "Moderate";
+            if (phase.Contains("New", StringComparison.OrdinalIgnoreCase)) return "Low";
+            return "Moderate";
+        }
+
+        private string PollutionLevelDescription(float coverage)
+        {
+            return coverage > 60 ? "High" :
+                coverage > 30 ? "Medium" : "Low";
+        }
+
+        private string GetPollutionLevelDescription(float coverage)
+        {
+            return PollutionLevelDescription(coverage);
+        }
+
+        private string GetPollutionImpact(float coverage)
+        {
+            if (coverage > 60) return "Reduced Visibility";
+            if (coverage > 30) return "Some Impact";
+            return "Clear";
         }
     }
 }
