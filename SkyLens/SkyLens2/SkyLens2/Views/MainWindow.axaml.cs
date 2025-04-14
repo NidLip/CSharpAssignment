@@ -51,10 +51,10 @@
                 MainContent.Content = new WeatherView();
             }
 
-            private void OnExploreSkyClick(object? sender, RoutedEventArgs e)
-            {
-                // TODO: Implement logic
-            }
+        private void OnNavigatePlanets(object? sender, RoutedEventArgs e)
+        {
+            MainContent.Content = new PlanetsView();
+        }
 
             private void OnSeeStarChartClick(object? sender, RoutedEventArgs e)
             {
