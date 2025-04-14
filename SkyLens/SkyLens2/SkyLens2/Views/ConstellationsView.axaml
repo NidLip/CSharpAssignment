@@ -2,61 +2,88 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="https://github.com/avaloniaui"
              xmlns:vm="clr-namespace:SkyLens2.ViewModels"
-             xmlns:models="clr-namespace:SkyLens2.Models"
              xmlns:global="clr-namespace:"
              x:Class="SkyLens2.Views.ConstellationsView"
              x:DataType="vm:ConstellationsViewModel">
-    
+
     <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="20, 20" Spacing="16" HorizontalAlignment="Stretch" MaxWidth="1000">
-            <TextBlock Text="{Binding Constellations.Count}" />
-            
-            <TextBlock Text="Visible Constellations" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,24"/>
+        <StackPanel Margin="20" Spacing="24" HorizontalAlignment="Center" MaxWidth="900">
+
+            <TextBlock Text="Visible Constellations"
+                       FontSize="32"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,16" />
 
             <ItemsControl ItemsSource="{Binding Constellations}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="global:Constellation">
-                        <Border BorderBrush="Gray"
-                                Background="#6C48C5"
-                                BorderThickness="1"
-                                CornerRadius="8"
-                                Margin="0,0,0,20"
-                                Padding="20">
-                            <StackPanel Spacing="8">
-                                <!-- Display Latin and English name together -->
-                                <TextBlock Text="{Binding LatinName}" FontSize="20" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding EnglishName}" FontStyle="Italic" FontSize="16" />
+                        <Border Background="#6C48C5"
+                                CornerRadius="12"
+                                Padding="16"
+                                Margin="0,0,0,16"
+                                BorderBrush="#444"
+                                BorderThickness="1">
 
-                                <WrapPanel>
-                                    <TextBlock Text="IAU Abbreviation: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding IAUCode}"/>
-                                </WrapPanel>
+                            <DockPanel LastChildFill="True" VerticalAlignment="Center" MinHeight="150" MaxHeight="250">
+                                <!-- Image on the left -->
+                                <Border Background="Black" Margin="5">
+                                    <StackPanel>
+                                        <Image Source="{Binding ImageUrl}"
+                                               Width="180"
+                                               Height="120"
+                                               Stretch="UniformToFill"
+                                               Margin="0,0,16,0"
+                                               DockPanel.Dock="Left"
+                                               VerticalAlignment="Top"
+                                               ClipToBounds="True"/>
+                                        <TextBlock Foreground="White" FontSize="8" FontStyle="Italic" Text="{Binding ImageUrl}"/>
+                                    </StackPanel>
+                                </Border>
 
-                                <WrapPanel>
-                                    <TextBlock Text="Brightest Star: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding PrincipalStar}"/>
-                                </WrapPanel>
+                                <!-- Info on the right -->
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="{Binding LatinName}"
+                                               FontSize="20"
+                                               FontWeight="SemiBold"
+                                               Foreground="#F0F0F0"/>
+                                    <TextBlock Text="{Binding EnglishName}"
+                                               FontSize="14"
+                                               FontStyle="Italic"
+                                               Foreground="LightGray"/>
 
-                                <WrapPanel>
-                                    <TextBlock Text="Season: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Season}"/>
-                                </WrapPanel>
+                                    <WrapPanel Margin="6">
+                                        <TextBlock Text="IAU Code:" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding IAUCode}"/>
+                                    </WrapPanel>
 
-                                <WrapPanel>
-                                    <TextBlock Text="Area: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding AreaInDegrees}"/>
-                                    <TextBlock Text="°" />
-                                </WrapPanel>
+                                    <WrapPanel Margin="6">
+                                        <TextBlock Text="Brightest Star:" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding PrincipalStar}"/>
+                                    </WrapPanel>
 
-                                <Image Source="{Binding ImageUrl}" Width="300" Height="200" Stretch="Uniform" Margin="0,10,0,0"/>
-                            </StackPanel>
+                                    <WrapPanel Margin="6">
+                                        <TextBlock Text="Season:" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Season}"/>
+                                    </WrapPanel>
+
+                                    <WrapPanel Margin="6">
+                                        <TextBlock Text="Area:" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding AreaInDegrees}"/>
+                                        <TextBlock Text="°"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </DockPanel>
                         </Border>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            
-            <TextBlock Text="What's your favorite constellation?"/>
 
+            <TextBlock Text="What's your favorite constellation?"
+                       FontSize="18"
+                       HorizontalAlignment="Center"
+                       Margin="0,10,0,0"
+                       Foreground="White"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
