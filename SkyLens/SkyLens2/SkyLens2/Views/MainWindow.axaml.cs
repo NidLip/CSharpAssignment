@@ -11,6 +11,8 @@
         {
             public static MainWindow Instance { get; private set; }
             private Timer _timer;
+            
+            private ConstellationService constellationService = new ConstellationService();
 
             public MainWindow()
             {
