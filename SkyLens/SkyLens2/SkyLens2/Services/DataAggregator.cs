@@ -39,10 +39,22 @@ namespace SkyLens2.Services
                 Sunset = astro.Sunset,
                 SunAltitude = astro.SunAltitude,
                 SunAzimuth = astro.SunAzimuth,
-                MoonPhase = astro.MoonPhase,
+                MoonPhase = FormatMoonPhase(astro.MoonPhase),
                 StageOfNight = DetermineStageOfNight(astro.Sunrise, astro.Sunset, localNow),
                 LocationName = $"{city}, {country}"
             };
+        }
+
+        private string FormatMoonPhase(string rawPhase)
+        {
+            if (string.IsNullOrWhiteSpace(rawPhase))
+                return "Unknown";
+
+            var words = rawPhase.ToLower().Replace('_', ' ').Split(' ');
+            for (int i = 0; i < words.Length; i++)
+                words[i] = char.ToUpper(words[i][0]) + words[i][1..];
+
+            return string.Join(" ", words);
         }
 
         private string DetermineStageOfNight(DateTime sunrise, DateTime sunset, DateTime now)

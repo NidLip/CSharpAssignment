@@ -16,5 +16,6 @@
         <TextBlock Text="{Binding CurrentData.SunAltitude, StringFormat='Sun Altitude: {0}°'}" />
         <TextBlock Text="{Binding CurrentData.SunAzimuth, StringFormat='Sun Azimuth: {0}°'}" />
         <TextBlock Text="{Binding CurrentData.StageOfNight, StringFormat='Stage of Night: {0}'}" />
+        <TextBlock Text="{Binding CurrentData.LocationName}" FontSize="20" FontWeight="Bold" Foreground="White"/>
     </StackPanel>
 </Window>

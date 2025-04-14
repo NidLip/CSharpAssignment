@@ -42,7 +42,7 @@ namespace SkyLens2.Services
             
             int offsetMinutes = (int)(data.time_zone.offset) * 60;
 
-            Console.WriteLine($"📍 Location: {city}, {country} | Offset: {offsetMinutes} mins");
+            Console.WriteLine($" Location: {city}, {country} | Offset: {offsetMinutes} mins");
 
             return (lat, lon, city, country, offsetMinutes);
         }
