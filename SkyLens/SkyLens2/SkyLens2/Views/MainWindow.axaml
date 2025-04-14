@@ -36,11 +36,11 @@
         
         <!-- Main Content -->
         <ScrollViewer Grid.Row="1">
-        <ContentControl x:Name="MainContent"
-                        HorizontalAlignment="Center"
-                        Margin="20"
-                        MaxWidth="1400"/>
-    </ScrollViewer>
+            <ContentControl x:Name="MainContent"
+                            HorizontalAlignment="Center"
+                            Margin="20"
+                            MaxWidth="1400"/>
+        </ScrollViewer>
 
         <!-- Footer -->
         <Border Grid.Row="2" Background="#FFE1FF" Padding="10">
