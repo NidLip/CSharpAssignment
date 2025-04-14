@@ -12,6 +12,7 @@
         <entry key="SkyLens2/Views/PlanetsView.axaml" value="SkyLens2/SkyLens2.csproj" />
         <entry key="SkyLens2/Views/StarsView.axaml" value="SkyLens2/SkyLens2.csproj" />
         <entry key="SkyLens2/Views/Weather.axaml" value="SkyLens2/SkyLens2.csproj" />
+        <entry key="SkyLens2/Views/WeatherView.axaml" value="SkyLens2/SkyLens2.csproj" />
       </map>
     </option>
   </component>

@@ -17,41 +17,46 @@
         
     </UserControl.Styles>
 
-    <ScrollViewer>
-        <StackPanel Margin="20" TextElement.Foreground="#FFE1FF">
-            <TextBlock Text="Visible Stars Overview" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20, 20" Spacing="16" HorizontalAlignment="Stretch" MaxWidth="1000" TextElement.Foreground="#FFE1FF">
+            <TextBlock Text="Visible Stars Overview" FontSize="28" FontWeight="Bold" Margin="0,0,0,20" />
 
             <ItemsControl ItemsSource="{Binding Stars}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="0,0,0,10" Padding="10">
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="SemiBold" />
-                                <TextBlock Text="{Binding Type}" FontStyle="Italic" />
-                                <WrapPanel>
-                                    <TextBlock Text="Distance: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Distance}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Absolute Magnitude: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding AbsoluteMagnitude}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Apparent Magnitude: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding ApparentMagnitude}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Azimuth: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Azimuth}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Altitude: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Altitude}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Constellation: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Constellation}"/>
-                                </WrapPanel>
+                        <Border BorderBrush="Gray"
+                                Background="#6C48C5"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Margin="0,0,0,20"
+                                Padding="20">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{Binding Name}" FontSize="20" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding Type}" FontStyle="Italic" Margin="0,0,0,4"/>
+                                    <WrapPanel>
+                                        <TextBlock Text="Distance: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Distance}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Absolute Magnitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding AbsoluteMagnitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Apparent Magnitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding ApparentMagnitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Azimuth: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Azimuth}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Altitude: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Altitude}"/>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <TextBlock Text="Constellation: " FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Constellation}"/>
+                                    </WrapPanel>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
@@ -59,4 +64,5 @@
             </ItemsControl>
         </StackPanel>
     </ScrollViewer>
+
 </UserControl>
