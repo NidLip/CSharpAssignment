@@ -49,7 +49,7 @@ namespace SkyLens2.Services
             
             // URL-encode parameters to ensure special characters are transmitted correctly
             string encodedCommand = Uri.EscapeDataString(command);
-            string encodedCenter = Uri.EscapeDataString("500@399");
+            string encodedCenter = Uri.EscapeDataString("500@10");
             string encodedStartTime = Uri.EscapeDataString(startTimeStr);
             string encodedStopTime = Uri.EscapeDataString(endTimeStr);
             string encodedStepSize = Uri.EscapeDataString(stepSize);
@@ -124,7 +124,7 @@ namespace SkyLens2.Services
         
         // Extract celestial body name from the result string
         string name = "Unknown";
-        var targetNameMatch = Regex.Match(result, @"Target body name:\s+([^\n(]+)");
+        var targetNameMatch = Regex.Match(result, @"Target body name:\s+([A-Za-z\s\-]+)");
         if (targetNameMatch.Success)
         {
             name = targetNameMatch.Groups[1].Value.Trim();
@@ -255,9 +255,7 @@ private EphemerisData ParseEphemerisData(string result)
             {
                 if (double.TryParse(parts[i], out double value) && value > 0 && value < 50)
                 {
-                    // A typical solar system distance would be between 0.1 and 50 AU
                     ephemerisData.Distance = value;
-                    Console.WriteLine($"Found distance at position {i}: {value}");
                     break;
                 }
             }

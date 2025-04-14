@@ -10,20 +10,20 @@
             <ItemsControl ItemsSource="{Binding Planets}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="Gray" BorderThickness="1" CornerRadius="8" Margin="0,0,0,10" Padding="10">
+                        <Border BorderBrush="Gray" BorderThickness="1" Background="#6C48C5" CornerRadius="8" Margin="0,0,0,10" Padding="10">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="SemiBold"/>
                                 <WrapPanel>
                                     <TextBlock Text="Radius: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Radius}"/>
-                                </WrapPanel>
-                                <WrapPanel>
-                                    <TextBlock Text="Distance from Sun: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Distance}"/>
+                                    <TextBlock Text="{Binding Radius, StringFormat='{}{0} km'}"/>
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="Mass: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Mass}"/>
+                                    <TextBlock Text="{Binding Mass, StringFormat='{}{0:0.##E+0} kg'}"/>
+                                </WrapPanel>
+                                <WrapPanel>
+                                    <TextBlock Text="Distance from Sun: " FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Distance, StringFormat='{}{0} AU'}"/>
                                 </WrapPanel>
                             </StackPanel>
                         </Border>
