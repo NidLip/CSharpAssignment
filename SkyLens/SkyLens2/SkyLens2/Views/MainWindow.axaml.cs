@@ -67,11 +67,6 @@
                 MainContent.Content = new ConstellationsView();
             }
 
-            private void OnNavigatePlanets(object? sender, RoutedEventArgs e)
-            {
-                MainContent.Content = new PlanetsView();
-            }
-
             private void OnNavigateStars(object? sender, RoutedEventArgs e)
             {
                 MainContent.Content = new StarsView();
