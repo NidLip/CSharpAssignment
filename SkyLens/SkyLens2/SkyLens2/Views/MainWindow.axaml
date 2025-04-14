@@ -1,20 +1,26 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:SkyLens2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:SkyLens2.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SkyLens2.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
+        x:DataType="viewModels:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="SkyLens2">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
+        <viewModels:MainWindowViewModel/>
     </Design.DataContext>
-
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock Text="{Binding CurrentData.Temperature, StringFormat='Temperature: {0} °C'}"/>
+        <TextBlock Text="{Binding CurrentData.CloudCoverage, StringFormat='Cloud Coverage: {0}%'}"/>
+        <TextBlock Text="{Binding CurrentData.WindSpeed, StringFormat='Wind Speed: {0} m/s'}"/>
+        <TextBlock Text="{Binding CurrentData.MoonPhase, StringFormat='Moon Phase: {0}'}"/>
+        <TextBlock Text="{Binding CurrentData.Sunrise, StringFormat='Sunrise: {0:HH:mm}'}"/>
+        <TextBlock Text="{Binding CurrentData.Sunset, StringFormat='Sunset: {0:HH:mm}'}"/>
+        <TextBlock Text="{Binding CurrentData.SunAltitude, StringFormat='Sun Altitude: {0}°'}"/>
+        <TextBlock Text="{Binding CurrentData.SunAzimuth, StringFormat='Sun Azimuth: {0}°'}"/>
+        <TextBlock Text="{Binding CurrentData.StageOfNight, StringFormat='Stage of Night: {0}'}"/>
+    </StackPanel>
 </Window>
