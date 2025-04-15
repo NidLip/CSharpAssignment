@@ -36,7 +36,6 @@
                                                DockPanel.Dock="Left"
                                                VerticalAlignment="Top"
                                                ClipToBounds="True"/>
-                                        <TextBlock Foreground="White" FontSize="8" FontStyle="Italic" Text="{Binding ImageUrl}"/>
                                     </StackPanel>
                                 </Border>
                                 
