@@ -8,7 +8,7 @@ using SkyLens2.Services;
 
 namespace SkyLens2.ViewModels
 {
-    public class StarViewModel : ViewModelBase
+    public class StarViewModel : ReactiveObject
     {
         private readonly StarService _starService;
 
