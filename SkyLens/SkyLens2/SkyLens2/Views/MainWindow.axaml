@@ -23,7 +23,6 @@
                     <Button Content="Home" Click="OnNavigateHome" Classes="HeaderButton"/>
                     <Button Content="Weather" Click="OnNavigateWeather" Classes="HeaderButton"/>
                     <Button Content="Constellations" Click="OnNavigateConstellations" Classes="HeaderButton"/>
-                    <Button Content="Stars" Click="OnNavigateStars" Classes="HeaderButton"/>
                 </StackPanel>
 
                 <!-- Right: Location and Time -->
