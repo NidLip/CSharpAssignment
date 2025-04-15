@@ -20,6 +20,11 @@ namespace SkyLens2.ViewModels
             _apiService = new HorizonApiService();
             LoadPlanetDataAsync();
         }
+        private double ParseDistanceFromSun(string description)
+        {
+            var match = Regex.Match(description, @"Distance from Sun[:=]?\s*([0-9.]+)\s*AU", RegexOptions.IgnoreCase);
+            return match.Success ? double.Parse(match.Groups[1].Value) : 0;
+        }
 
         private async Task LoadPlanetDataAsync()
         {
@@ -31,7 +36,7 @@ namespace SkyLens2.ViewModels
 
                 var radius = ParseRadius(body.Description);
                 var mass = ParseMass(body.Description);
-                var distance = body.EphemerisData.Distance;
+                var distance = ParseDistanceFromSun(body.Description); 
 
                 Console.WriteLine($"Parsed Radius: {radius}, Mass: {mass}, Distance: {distance}");
                 

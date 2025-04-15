@@ -49,16 +49,16 @@ namespace SkyLens2.Services
             
             // URL-encode parameters to ensure special characters are transmitted correctly
             string encodedCommand = Uri.EscapeDataString(command);
-            string encodedCenter = Uri.EscapeDataString("500@10");
+            string encodedCenter = Uri.EscapeDataString("@0");
             string encodedStartTime = Uri.EscapeDataString(startTimeStr);
             string encodedStopTime = Uri.EscapeDataString(endTimeStr);
             string encodedStepSize = Uri.EscapeDataString(stepSize);
 
             var relativeUrl = $"?format=json&COMMAND={encodedCommand}" +
-                              $"&OBJ_DATA=YES&MAKE_EPHEM=YES" +
-                              $"&EPHEM_TYPE=OBSERVER&CENTER={encodedCenter}" +
-                              $"&START_TIME={encodedStartTime}&STOP_TIME={encodedStopTime}" +
-                              $"&STEP_SIZE={encodedStepSize}";
+                  $"&OBJ_DATA=YES&MAKE_EPHEM=YES" +
+                  $"&EPHEM_TYPE=ELEMENTS&CENTER=500@10" + // Solar system barycenter
+                  $"&START_TIME={encodedStartTime}&STOP_TIME={encodedStopTime}" +
+                  $"&STEP_SIZE={encodedStepSize}";
 
             Console.WriteLine("Request URL: " + _httpClient.BaseAddress + relativeUrl);
             
@@ -137,21 +137,71 @@ namespace SkyLens2.Services
         // Extract ephemeris data (if available)
         var ephemerisData = ParseEphemerisData(result);
         body.EphemerisData = ephemerisData;
-        
-        // Extract orbital period and temperature
+        string description = ExtractDescription(result);
+
+// Parse the description to set properties
+        double radius = 0;
+        string massStr = "Not available";
+        double distanceFromSun = 0;
+
+// Split the description by newlines and parse each line
+        foreach (var line in description.Split('\n'))
+        {
+            if (line.StartsWith("Radius:"))
+            {
+                string radiusStr = line.Substring("Radius:".Length).Replace(" km", "");
+                if (radiusStr != "Not available in API response")
+                {
+                    double.TryParse(radiusStr, out radius);
+                }
+            }
+            else if (line.StartsWith("Mass:"))
+            {
+                massStr = line.Substring("Mass:".Length);
+            }
+            else if (line.StartsWith("Distance from Sun:"))
+            {
+                string distStr = line.Substring("Distance from Sun:".Length).Replace(" AU", "");
+                if (distStr != "Not available in API response")
+                {
+                    double.TryParse(distStr, out distanceFromSun);
+                }
+            }
+        }
+
+        Console.WriteLine($"Parsed Radius: {radius}, Mass: {massStr}, Distance: {distanceFromSun}");
+
+// Extract ephemeris data (if available)
+
+// Extract orbital period and temperature
+        string orbitalPeriod = null;
+        string surfaceTemperature = null;
+
         var orbitalPeriodMatch = Regex.Match(result, @"Orbital period\s*=\s*([0-9.]+)");
         if (orbitalPeriodMatch.Success)
         {
-            body.OrbitalPeriod = orbitalPeriodMatch.Groups[1].Value + " days";
+            orbitalPeriod = orbitalPeriodMatch.Groups[1].Value + " days";
         }
-        
+
         var tempMatch = Regex.Match(result, @"Mean Temperature\s*=\s*([0-9.]+)");
         if (tempMatch.Success)
         {
-            body.SurfaceTemperature = tempMatch.Groups[1].Value + " K";
+            surfaceTemperature = tempMatch.Groups[1].Value + " K";
         }
-        
-        return body;
+
+// Create and return the body with properties set
+        return new CelestialBody
+        {
+            Id = bodyId,
+            Name = name,
+            Description = description,
+            Radius = radius,
+            Mass = massStr,
+            DistanceFromSun = distanceFromSun,
+            EphemerisData = ephemerisData,
+            OrbitalPeriod = orbitalPeriod,
+            SurfaceTemperature = surfaceTemperature
+        };
     }
     catch (Exception ex)
     {
@@ -313,7 +363,10 @@ private EphemerisData ParseEphemerisData(string result)
             @"Mean radius \(km\)\s*=\s*([0-9.]+)",
             @"Vol\. Mean Radius \(km\)\s*=\s*([0-9.]+)",
             @"Equatorial radius \(km\)\s*=\s*([0-9.]+)",
-            @"Volumetric mean radius \(km\)\s*=\s*([0-9.]+)"
+            @"Volumetric mean radius \(km\)\s*=\s*([0-9.]+)",
+            @"equatorial radius.*?=\s*([0-9.]+)",
+            @"Neptune.*?radius.*?=\s*([0-9.]+)",
+            @"Radius\s*\(km\)\s*=\s*([0-9.]+)"
         };
         
         bool foundRadius = false;
@@ -396,10 +449,11 @@ private EphemerisData ParseEphemerisData(string result)
         
         // Extract distance from sun (semi-major axis)
         var distancePatterns = new[] {
-            @"Semi-major axis\s*\(AU\)\s*=\s*([0-9.]+)",
-            @"semi-major axis\s*=\s*([0-9.]+)",
-            @"a\s*\(AU\)\s*=\s*([0-9.]+)",
-            @"mean distance.*?=\s*([0-9.]+)\s*AU"
+            @"semi-major axis\s*=\s*([0-9.]+)\s*AU",
+            @"a\s*=\s*([0-9.]+)\s*AU",
+            @"[Ss]emi-major axis\s*\(AU\)\s*=\s*([0-9.]+)",
+            @"EC\s*([0-9.]+)\s*QR\s*([0-9.]+)\s*IN",
+            @"A=\s*([0-9.]+)"
         };
         
         bool foundDistance = false;
@@ -418,7 +472,18 @@ private EphemerisData ParseEphemerisData(string result)
         {
             descriptions.Add("Distance from Sun:Not available in API response");
         }
-        
+        // Special case for Neptune
+        if (!foundDistance && result.Contains("Neptune"))
+        {
+            var neptunePattern = @"Heliocentric.*?[aA]xis.*?=\s*([0-9.]+)";
+            var neptuneMatch = Regex.Match(result, neptunePattern);
+            if (neptuneMatch.Success)
+            {
+                descriptions.Add($"Distance from Sun:{neptuneMatch.Groups[1].Value} AU");
+                foundDistance = true;
+            }
+        }
+
         // Add debug output to see what's in the API response
         Console.WriteLine("API Response Excerpt (for Mass detection):");
         // Find position of "Mass" in the result

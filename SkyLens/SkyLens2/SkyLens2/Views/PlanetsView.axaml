@@ -23,7 +23,7 @@
                                 </WrapPanel>
                                 <WrapPanel>
                                     <TextBlock Text="Distance from Sun: " FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Distance, StringFormat='{}{0} AU'}"/>
+                                    <TextBlock Text="{Binding Distance, StringFormat='{}{0:F2} AU'}"/>
                                 </WrapPanel>
                             </StackPanel>
                         </Border>

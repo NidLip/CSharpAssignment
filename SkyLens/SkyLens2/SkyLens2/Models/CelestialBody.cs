@@ -37,7 +37,9 @@ namespace SkyLens2.Models
         public string OrbitalPeriod { get; set; }
         public string SurfaceTemperature { get; set; }
         
-        
+        public double Radius { get; set; }
+        public string Mass { get; set; }
+        public double DistanceFromSun { get; set; }
         public EphemerisData EphemerisData { get; set; } = new EphemerisData();
         public HorizonResponse RawData { get; set; } = new HorizonResponse();
     
