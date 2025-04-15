@@ -7,12 +7,11 @@
         Width="1400" Height="900"
         Background="#1230AE"
         FontFamily="Arial">
-    
+
     <Grid RowDefinitions="Auto,*,Auto">
         <!-- Header -->
         <Border Grid.Row="0" Background="#FFE1FF" Padding="15" BorderBrush="#CCCCCC" BorderThickness="0 0 0 1">
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalAlignment="Center">
-                <!-- Left: Logo -->
                 <Image Source="avares://SkyLens2/Assets/SkyLensLogo.png"
                        Width="100"
                        Grid.Column="0"
@@ -24,16 +23,17 @@
                     <Button Content="Home" Click="OnNavigateHome" Classes="HeaderButton"/>
                     <Button Content="Weather" Click="OnNavigateWeather" Classes="HeaderButton"/>
                     <Button Content="Constellations" Click="OnNavigateConstellations" Classes="HeaderButton"/>
+                    <Button Content="Stars" Click="OnNavigateStars" Classes="HeaderButton"/>
                 </StackPanel>
 
-                <!-- Right: Location and DateTime -->
+                <!-- Right: Location and Time -->
                 <StackPanel Grid.Column="2" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <TextBlock Text="Emmen, Netherlands" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
                     <TextBlock x:Name="DateTimeText" FontSize="16" Foreground="Black" HorizontalAlignment="Right"/>
                 </StackPanel>
             </Grid>
         </Border>
-        
+
         <!-- Main Content -->
         <ScrollViewer Grid.Row="1">
             <ContentControl x:Name="MainContent"

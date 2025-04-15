@@ -142,3 +142,4 @@ C:/Users/anast/Desktop/SkyLensC#/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/
 /Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/Debug/net9.0/SkyLens2.csproj.Up2Date
 /Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/Debug/net9.0/SkyLens2.genruntimeconfig.cache
 /Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/obj/Debug/net9.0/ref/SkyLens2.dll
+/Users/minochka/Projects/CSharpAssignment/SkyLens/SkyLens2/SkyLens2/bin/Debug/net9.0/apiKeys.env

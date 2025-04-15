@@ -1,20 +1,32 @@
-﻿using Avalonia;
-using System;
+﻿using System;
+using System.IO;
+using Avalonia;
+using SkyLens2.Utilities;
 
 namespace SkyLens2;
 
 sealed class Program
 {
-    // Initialization code. Don't use any Avalonia, third-party APIs or any
-    // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
-    // yet and stuff might break.
-    [STAThread]
-    public static void Main(string[] args) => BuildAvaloniaApp()
-        .StartWithClassicDesktopLifetime(args);
+    static Program()
+    {
+        try
+        {
+            string envFilePath = Path.Combine(AppContext.BaseDirectory, "apiKeys.env");
+            EnvLoader.Load(envFilePath);
+            Console.WriteLine("Environment variables loaded successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error loading apiKeys.env: " + ex.Message);
+        }
+    }
 
-    // Avalonia configuration, don't remove; also used by visual designer.
-    public static AppBuilder BuildAvaloniaApp()
-        => AppBuilder.Configure<App>()
+    [STAThread]
+    public static void Main(string[] args) =>
+        BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
+
+    public static AppBuilder BuildAvaloniaApp() =>
+        AppBuilder.Configure<App>()
             .UsePlatformDetect()
             .WithInterFont()
             .LogToTrace();
